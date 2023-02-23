@@ -1,0 +1,10 @@
+{
+  "name": "uniCloudApi",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {},
+    "uni-cloud-sms": {},
+    "uni-cloud-verify": {},
+    "uni-cloud-push": {}
+  }
+}

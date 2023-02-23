@@ -1,0 +1,85 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3177278 */
+  src: url('https://at.alicdn.com/t/font_3177278_xymnqvoinzo.ttf?t=1649913150480') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-recommend:before {
+  content: "\e62b";
+}
+
+.icon-read:before {
+  content: "\e825";
+}
+
+.icon-read-fill:before {
+  content: "\e8f1";
+}
+
+.icon-container:before {
+  content: "\e7d4";
+}
+
+.icon-home:before {
+  content: "\e801";
+}
+
+.icon-phone:before {
+  content: "\e848";
+}
+
+.icon-container-fill:before {
+  content: "\e8ea";
+}
+
+.icon-home-fill:before {
+  content: "\e904";
+}
+
+.icon-yuedu:before {
+  content: "\e810";
+}
+
+.icon-dianhua:before {
+  content: "\e817";
+}
+
+.icon-yaoxiang:before {
+  content: "\e812";
+}
+
+.icon-baogao:before {
+  content: "\e811";
+}
+
+.icon-user:before {
+  content: "\e7ce";
+}
+
+.icon-mobile:before {
+  content: "\e7d7";
+}
+
+.icon-key:before {
+  content: "\e83f";
+}
+
+.icon-jiju:before {
+  content: "\e8b1";
+}
+
+.icon-phone-fill:before {
+  content: "\e913";
+}
+
+.icon-wechat-fill:before {
+  content: "\e958";
+}
+

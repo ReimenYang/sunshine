@@ -1,0 +1,60 @@
+.wrap {
+  padding: 0 60rpx;
+
+  .title {
+    padding: 140rpx 0;
+    display: flex;
+
+    .logo {
+      width: 128rpx;
+      height: 128rpx;
+      margin-right: 20rpx;
+    }
+
+    .row {
+      line-height: 1.5;
+
+      .welcome {
+        font-size: var(--font-h4);
+      }
+
+      .appName {
+        font-size: var(--font-h2);
+      }
+    }
+  }
+
+  .phone {
+    height: 100rpx;
+    font-size: var(--font-h3);
+    border-bottom: var(--border-normal);
+    text-align: center;
+  }
+
+  .error {
+    height: 40rpx;
+    margin: 20rpx 0 80rpx;
+    color: var(--color-warning);
+    text-align: center;
+  }
+
+  .retry {
+    height: 40rpx;
+    margin: 60rpx 0;
+    text-align: center;
+    color: var(--theme-color);
+
+    &.disable {
+      color: var(--color-tips);
+    }
+  }
+
+  .toggleLoginType {
+    width: calc(100% - 120rpx);
+    height: var(--button-height);
+    position: absolute;
+    bottom: 30rpx;
+    line-height: var(--button-height);
+    text-align: center;
+  }
+}

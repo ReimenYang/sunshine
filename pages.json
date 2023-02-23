@@ -1,0 +1,159 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+      "^xnw-loading": "@/libs/components/state/loading/loading.vue",
+      "^xnw-dialog": "@/libs/components/uniapp/dialog/dialog.vue",
+      "^xnw-address": "@/libs/components/uniapp/address/address.vue",
+      "^xnw-number": "@/libs/components/uniapp/number/number.vue",
+      "^xnw-(.*)": "@/libs/components/uniapp/box/$1/$1.vue",
+      "^p-(.*)": "@/pages/components/_$1.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "",
+        "autoBackButton": false
+      }
+    },
+    {
+      "path": "pages/index/loginPhone",
+      "style": {
+        "navigationBarTitleText": "",
+        "autoBackButton": false
+      }
+    },
+    {
+      "path": "pages/index/loginCode",
+      "style": {
+        "navigationBarTitleText": "",
+        "autoBackButton": false
+      }
+    },
+    {
+      "path": "pages/index/loginPassword",
+      "style": {
+        "navigationBarTitleText": "",
+        "autoBackButton": false
+      }
+    },
+    {
+      "path": "pages/index/contact",
+      "style": {
+        "navigationBarTitleText": "联系我们",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/index/about",
+      "style": {
+        "navigationBarTitleText": "关于我们",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/scheme/index",
+      "style": {
+        "navigationBarTitleText": "康复理疗",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/scheme/detail",
+      "style": {
+        "navigationBarTitleText": "方案详情",
+        "backgroundColor": "#fff"
+      }
+    },
+    {
+      "path": "pages/scheme/getReady",
+      "style": {
+        "navigationBarTitleText": "准备训练",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/scheme/list",
+      "style": {
+        "navigationBarTitleText": "方案管理"
+      }
+    },
+    {
+      "path": "pages/scheme/edit",
+      "style": {
+        "navigationBarTitleText": "方案编辑"
+      }
+    },
+    {
+      "path": "pages/scheme/record",
+      "style": {
+        "navigationBarTitleText": "训练记录"
+      }
+    },
+    {
+      "path": "pages/bluetooth/running",
+      "style": {
+        "navigationBarTitleText": "训练"
+      }
+    },
+    {
+      "path": "pages/bluetooth/connect",
+      "style": {
+        "navigationBarTitleText": "连接设备"
+      }
+    },
+    {
+      "path": "pages/bluetooth/material",
+      "style": {
+        "navigationBarTitleText": "准备材料"
+      }
+    },
+    {
+      "path": "pages/bluetooth/paste",
+      "style": {
+        "navigationBarTitleText": "贴电极片",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/bluetooth/setTime",
+      "style": {
+        "navigationBarTitleText": "训练时长",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white"
+      }
+    },
+    {
+      "path": "pages/bluetooth/setCurrent",
+      "style": {
+        "navigationBarTitleText": "设置强度",
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "appName",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#F8F8F8"
+  },
+  "condition": { // 模式配置，仅开发期间生效
+    "current": 0, // 当前激活的模式(list 的索引项)
+    "list": [
+      {
+        "name": "index", // 模式名称
+        "path": "pages/index/index", // 启动页面，必选
+        "query": "" // 启动参数，在页面的onLoad函数里面得到
+      }
+    ]
+  }
+}
