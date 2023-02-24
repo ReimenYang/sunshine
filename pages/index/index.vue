@@ -113,6 +113,7 @@ export default {
       this.globalData.imageList = (
         await this.request(this.api.ECirculation.scheme.getImageList)
       ).data
+      this.globalData.imageList.forEach(item => item.id = String(item.id))
       uni.hideLoading()
       if (!this.isNeed && !this.showUpdate && userInfo.statusCode !== 30002) return this.router()
     },

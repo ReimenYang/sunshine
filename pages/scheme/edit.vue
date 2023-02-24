@@ -79,6 +79,7 @@ export default {
           { id: this.workoutEdit.id }
         )
       ).data
+
       this.workoutEdit.channelList.forEach(item => {
         let _detail = schemeDetail.channelList.find(object => object.channel === item.channel) || {}
         item.labelName = this.channelName[_detail.channel]

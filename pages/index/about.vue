@@ -93,6 +93,7 @@ export default {
       this.modifyPassword = false
     },
     loginOut () {
+      this.libs.data.removeStorage('userInfo')
       this.globalData.userInfo = null
       uni.reLaunch({ url: '/pages/index/index' })
     }

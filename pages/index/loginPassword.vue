@@ -57,6 +57,11 @@ export default {
   },
   async onLoad () {
     let userInfo = this.libs.data.getStorage('userInfo')
+    if (userInfo && new Date() - userInfo.timestamp > 1000 * 60 * 60 * 24 * 15) {
+      uni.showModal({ content: '登录信息有效期已过，请重新登录' })
+      this.libs.data.removeStorage('userInfo')
+      userInfo = null
+    }
     if (!userInfo) return
     this.globalData.userInfo = userInfo
     uni.reLaunch({ url: '/pages/index/index' })
@@ -72,6 +77,7 @@ export default {
       let { data, code, errorMessage } = await this.request(this.api.ECirculation.user.loginByUsername, { username: this.username, password })
       if (code !== 200) return this.error = errorMessage
       data.realname = data.userName
+      data.timestamp = new Date() - 0
       this.globalData.userInfo = data
       this.libs.data.setStorage('phone', data.phone)
       this.libs.data.setStorage('userName', this.username)
