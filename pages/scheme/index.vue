@@ -115,6 +115,10 @@ export default {
   },
   async onLoad (option) {
     this.from = option.from
+    this.globalData.imageList = (
+      await this.request(this.api.ECirculation.scheme.getImageList)
+    ).data
+    this.globalData.imageList.forEach(item => item.id = String(item.id))
   },
   onHide () {
     delete this.globalData.pageInit

@@ -29,7 +29,7 @@ async function request (api, params = {}, config = {}) {
   let _host = configProject.urlApi
   // if(this.libs.data.getStorage('proxy')) _host = this.libs.data.getStorage('proxy')
   let _group = api.group ? configProject.apiGroup[api.group] : ''
-  let _keyValue = utils.object.paramsToKeyValue(params)
+  // let _keyValue = utils.object.paramsToKeyValue(params)
   let url = _host + _group + api.url // + '?' + encodeURI(_keyValue)
   if (api.url.startsWith('http')) url = api.url
   // if (url.length > 1024) {
@@ -63,7 +63,13 @@ async function request (api, params = {}, config = {}) {
   let errRes, dataRes, respondseError
   if (configProject.framework === 'uni') {
     console.log('uni请求')
-    if (api.dataType === 'keyValue') url += '?' + encodeURI(_keyValue)
+    if (api.dataType === 'keyValue') {
+      let _params = {}
+      for (let n in params) _params[n] = encodeURIComponent(params[n])
+      let _keyValue = utils.object.paramsToKeyValue(_params)
+      url += '?' + _keyValue
+      // url += '?' + encodeURI(_keyValue)
+    }
     toast = title => uni.showToast({ title, icon: 'none', duration: 2000 })
     let [_errRes, _dataRes] = await uni.request({ ...api, url, data, ...config, header, sslVerify: false })
     errRes = _errRes
