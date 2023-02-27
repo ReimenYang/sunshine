@@ -37,7 +37,6 @@ Vue.mixin({
     // 跳过初始化
     // libs.configProject.globalData.appReady = true
     // 开始初始化
-
     uni.showLoading({ title: '启动中...' })
     this.globalData.enterRoute = this.$route
     if (globalData.appReady !== true) await checkReady()
@@ -73,11 +72,25 @@ let { projectName, vision, globalData } = libs.configProject
 async function checkReady (n = 0) {
   // 跳过初始化
   // libs.configProject.globalData.appReady = true
+  if (10 < n) {
+    console.log('初始化失败')
+    // #ifdef APP
+    libs.data.exit('初始化失败')
+    // #endif
+    return false
+  }
+  if (getCurrentPages().length) globalData.enterRoute = getCurrentPages()[0].$route
+  if (!getCurrentPages().length) {
+    let { hash } = location
+    let fullPath = hash.slice(1)
+    let [path, query] = hash.split('?')
+    globalData.enterRoute = { fullPath, path, query: libs.object.keyValueToParams(query) }
+  }
   // 开始初始化
   let _ready = globalData.appReady === true
+  console.log(n, '等待初始化...............................................', _ready, libs.data.networkType)
   if (!_ready) {
-    console.log(n, '等待初始化...............................................')
-    await libs.data()
+    if (getCurrentPages().length) await libs.data()
     // uni.report('设备信息', libs.data.systemInfo)
     // #ifdef APP
     // 强制要求不打开网络退出app
@@ -105,12 +118,14 @@ async function checkReady (n = 0) {
     // #endif
     libs.configProject.globalData = globalData
     await init()
-    console.log('检查初始化结果', globalData.appReady)
+    console.log('检查初始化结果', n, globalData.appReady)
     _ready = globalData.appReady === true
-    if (!_ready) return checkReady(n + 1)
+    if (!_ready) {
+      await waiting(1000)
+      return checkReady(n + 1)
+    }
   }
-  if (10 < n) return libs.data.exit('初始化失败')
-  console.log('初始化结果', _ready, globalData)
+  console.log('初始化结果', n, _ready)
   return _ready
 }
 

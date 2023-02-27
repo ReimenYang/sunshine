@@ -20,28 +20,47 @@ const apis = {
   },
   doctorIndex: {
     method: 'GET',
-    url: '/userJoinSubjectApi/doctorIndex',
+    url: 'userJoinSubjectApi/doctorIndex',
     group: 'core',
     dataType: 'json'
   },
   doctorViewMemberDetailById: {
     method: 'GET',
-    url: '/userJoinSubjectApi/doctorViewMemberDetailById',
+    url: 'userJoinSubjectApi/doctorViewMemberDetailById',
     group: 'core',
     dataType: 'json'
   },
   phaseStatusEndTreatment: {
     method: 'GET',
-    url: '/userJoinSubjectApi/phaseStatusEndTreatment',
+    url: 'userJoinSubjectApi/phaseStatusEndTreatment',
     group: 'core',
     dataType: 'form'
   },
   doctorSubjectManagement: {
     method: 'GET',
-    url: '/userJoinSubjectApi/doctorSubjectManagement',
+    url: 'userJoinSubjectApi/doctorSubjectManagement',
     group: 'core',
     dataType: 'form'
   },
+  doctorAgreeUserJoin: {
+    method: 'POST',
+    url: 'userJoinSubjectApi/doctorAgreeUserJoin',
+    group: 'core',
+    dataType: 'json'
+  },
+  doctorBackFirstQuestionnaire: {
+    method: 'POST',
+    url: 'userJoinSubjectApi/doctorBackFirstQuestionnaire',
+    group: 'core',
+    dataType: 'json'
+  },
+  doctorRemindUserFillOutQuestionnaire: {
+    method: 'GET',
+    url: 'userJoinSubjectApi/doctorRemindUserFillOutQuestionnaire',
+    group: 'core',
+    dataType: 'form'
+  },
+
 }
 
 export default apis

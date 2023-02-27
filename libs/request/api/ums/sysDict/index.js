@@ -35,7 +35,8 @@ const apis = {
   questionnaire: {
     paperType: { ...def, url: _path + 'questionnaire/paperType' },
     baseInfoStep: { ...def, url: _path + 'questionnaire/baseInfoStep' },
-    painPhaseStatus: { ...def, url: _path + 'questionnaire/painPhaseStatus' }
+    painPhaseStatus: { ...def, url: _path + 'questionnaire/painPhaseStatus' },
+    mandetail: { ...def, url: _path + 'questionnaire/mandetail' },
   },
   // App版本信息
   updateAppConfig: {

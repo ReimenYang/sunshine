@@ -38,7 +38,7 @@ const mock = {
     serviceId: '0000FFB0-0000-1000-8000-00805F9B34FB',
     characteristicId: '0000ffb2-0000-1000-8000-00805f9b34fb'
   }
-}[project.projectName]
+}[project.projectName] || {}
 // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立连接
 let deviceId = ''
 // 这里的 serviceId 需要已经通过 getBLEDeviceServices 与对应设备建立连接

@@ -6,12 +6,15 @@ async function getNetworkType () {
   if (error) return error
   // return data.networkType
   if (data.networkType === 'none') return data.networkType
+  // #ifdef APP
   // 校验网络是否授权并畅通
   let [_error] = await uni.request({
     'method': 'GET',
     'url': 'https://static-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a.bspapp.com/updateAppConfig.json'
   })
   return _error ? 'none' : data.networkType
+  // #endif
+  return data.networkType
 }
 
 function exitNoNotice () {
