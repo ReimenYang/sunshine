@@ -1,5 +1,5 @@
 module.exports = {
-  name: '晨硕治疗仪', // 项目名称 晨硕治疗仪 易循环
+  name: '晨硕治疗仪', // 项目名称 晨硕治疗仪
   projectName: 'sunshine', // 项目代号
   port: 8864, // 本地运行的端口
   framework: 'uni', // 使用前端框架:vue||uni

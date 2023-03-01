@@ -65,7 +65,7 @@
           </xnw-item>
         </view>
       </view>
-      发送长度：<input
+      <!-- 发送长度：<input
         type="number"
         v-model="l"
       >K
@@ -92,7 +92,7 @@
         >
           一次性发送
         </view>
-      </view>
+      </view> -->
     </p-wrap>
     <p-menu :defaultIndex="0" />
   </view>

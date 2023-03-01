@@ -68,7 +68,7 @@ export default {
       isNeed: false,
       showUpdate: false,
       setting: {
-        type: 'ECirculation', // 优E康
+        type: this.libs.configProject.projectName,
         showModal: 'dialog',
         from: 'app'
       }

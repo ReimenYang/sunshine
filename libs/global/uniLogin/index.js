@@ -42,7 +42,7 @@ uniLogin.preLogin = (provider, univerifyStyle) => {
           title: '预登录失败,' + err.metadata.msg,
           duration: 5000, icon: 'none'
         })
-        if (univerifyStyle.force) libs.data.exit('客户端未装手机卡，或数据流量为打开，或信号不佳导致登录失败')
+        if (univerifyStyle.force) libs.data.exit('客户端未装手机卡，或数据流量未打开，或信号不佳导致登录失败')
       }
     })
   })

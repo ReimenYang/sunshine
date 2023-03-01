@@ -69,7 +69,7 @@ export default {
       console.log(target)
     },
     confirm () {
-      this.$emit('onConfirm', this.tmpId - 0)
+      this.$emit('onConfirm', this.tmpId)
     }
   }
 }

@@ -24,7 +24,7 @@ async function request (api, params = {}, config = {}) {
   api = JSON.parse(JSON.stringify(api))
 
   // ECirculation项目特有逻辑
-  if (configProject.projectName === 'ECirculation') params = { pageSize: 20, token: headers && headers.token, ...params }
+  if (['ECirculation', 'sunshine'].includes(configProject.projectName)) params = { pageSize: 20, token: headers && headers.token, ...params }
   let apiName = api.url.split('/').slice(-1).join()
   let _host = configProject.urlApi
   // if(this.libs.data.getStorage('proxy')) _host = this.libs.data.getStorage('proxy')

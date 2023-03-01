@@ -501,7 +501,7 @@ BioStimBleModule.sendInitCmd = async (options, time) => {
   // 不保存方案：isSave等于0，planNo是1
   // 保存方案：isSave等于1，channel是1
   // 保存方案的需求还没确定
-  const canSave = ['consume', 'ECirculation'].includes(project.projectName)
+  const canSave = ['consume', 'ECirculation', 'sunshine'].includes(project.projectName)
   if (!canSave) {
     await writePort(DeviceCmd.setChannelEnd(channel))
     return
