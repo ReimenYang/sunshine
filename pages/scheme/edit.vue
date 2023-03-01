@@ -98,9 +98,14 @@ export default {
           let _used = _index > -1
 
           // 没有开启通道，接口2不能设置
-          let disabled = !_used && (label[1] !== '1')
+          // let disabled = !_used && (label[1] !== '1')
+          // 接口二状态与接口一同步，不能单独设置
+          let disabled = label[1] !== '1'
+
           // 是否已选
-          let checked = _used && (label[1] <= channelSettiing[_index + 1])
+          // let checked = _used && (label[1] <= channelSettiing[_index + 1])
+          // 接口二状态与接口一同步，不能单独设置
+          let checked = _used
 
           return { label, value: label, disabled, checked, color: 'red', style: 'transform:scale(0.7)' }
         })
@@ -156,8 +161,10 @@ export default {
               this.spliceList.forEach(obj => {
                 // 该组接口1已打开
                 let baseSpliceOpened = _group.includes(obj.label[0])
-                obj.disabled = !baseSpliceOpened && (obj.label[1] !== '1')
-                obj.checked = baseSpliceOpened && obj.checked
+                // obj.disabled = !baseSpliceOpened && (obj.label[1] !== '1')
+                // obj.checked = baseSpliceOpened && obj.checked
+                // 接口二状态与接口一同步，不能单独设置
+                obj.checked = baseSpliceOpened
               })
             }
             this.buildChannelConfig()

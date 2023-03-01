@@ -75,8 +75,8 @@ export default {
   },
   methods: {
     prevStep () {
+      if (this.showIndex === 0) return this.$emit('prevStep')
       this.showIndex--
-      if (this.showIndex < 0) this.$emit('prevStep')
     },
     nextStep () {
       let _channel = this.config[this.showIndex]
