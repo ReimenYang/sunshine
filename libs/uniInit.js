@@ -1,6 +1,8 @@
 // 系统启动后会对libs进行建全和直接引用的libs有所不同，因此init需要在启动系统后，uniapp启动前执行
 import Vue from 'vue'
+// #ifndef MP-WEIXIN
 import * as echarts from 'echarts'
+// #endif
 import libs from '@/libs'
 // import XnwLoading from '@/libs/components/state/loading/loading'
 // import XnwHeader from '@/libs/components/uniapp/box/header/header'
@@ -30,7 +32,9 @@ Vue.prototype.libs = libs
 Vue.prototype.request = libs.request
 Vue.prototype.api = libs.api
 Vue.prototype.globalData = libs.configProject.globalData
+// #ifndef MP-WEIXIN
 Vue.prototype.echarts = echarts
+// #endif
 
 Vue.mixin({
   async created () {

@@ -66,7 +66,7 @@ export default {
     async bleStateChangeRegister (_this) {
       console.log('注册蓝牙改变全局监听事件')
       // let _this = this
-      this.globalData.bleStateChange = {
+      _this.globalData.bleStateChange = {
         discoveringFalse: { console () { console.log('关闭发现') } },
         discoveringTrue: { console () { console.log('开启发现') } },
         availableFalse: {
@@ -88,7 +88,7 @@ export default {
           async openBluetoothAdapter (res) {
             console.log('蓝牙空闲，可连接', res)
             // if (_this.globalData.bleReady) await _this.BioStimBleModule.closeBluetoothAdapter()
-            if (!this.BioStimBleModule.bleState) await _this.bleInit()
+            if (!_this.BioStimBleModule.bleState) await _this.bleInit()
           }
         }
       }
@@ -105,7 +105,8 @@ export default {
     },
     async stateManage (target, msgCode) {
       let { log, toast, stateName, time = 2000, icon = 'none' } = target
-      if (typeof state !== 'boolean') return
+      if (msgCode === 'longRecived') return
+      // if (typeof state !== 'boolean') return
       // 操作当前状态
       // this.$set(this, stateName, state)
       // this.globalData[stateName] = state
@@ -124,6 +125,7 @@ export default {
       //   })
       // }
       // if (stateName === 'paired') this.handlePair(this.bleState.paired)
+      console.log(toast)
       if (toast) this.toast(toast, time, icon)
       let { bleReady, bleOnline, searching, connected, paired } = this.BioStimBleModule.bleState// this.globalData
       console.log(
@@ -160,18 +162,18 @@ export default {
       return getCurrentPages()[getCurrentPages().length - 1].route
     },
     reLaunchIndex (from) {
-      // let noAction = ['pages/index/contact', 'pages/scheme/record', 'pages/scheme/index', 'pages/bluetooth/connect', 'pages/bluetooth/running'].includes(this.getPageUrl())
+      // let noAction = ['pages/index/contact', 'scheme/record', 'scheme/index', 'bluetooth/connect', 'bluetooth/running'].includes(this.getPageUrl())
       // 22020928 需求from罗 运行过程中手动 关闭蓝牙，返回首页
-      let noAction = ['pages/index/contact', 'pages/scheme/record', 'pages/scheme/index', 'pages/bluetooth/connect'].includes(this.getPageUrl())
+      let noAction = ['pages/index/contact', 'scheme/record', 'scheme/index', 'bluetooth/connect'].includes(this.getPageUrl())
       if (noAction) return
-      let back = ['pages/index/contact', 'pages/scheme/index'].includes(this.getPageUrl())
+      let back = ['pages/index/contact', 'scheme/index'].includes(this.getPageUrl())
       if (back) return uni.navigateBack()
-      if (this.getPageUrl() !== 'pages/scheme/index') uni.reLaunch({ url: '/pages/scheme/index?from=' + from })
+      if (this.getPageUrl() !== 'scheme/index') uni.reLaunch({ url: '/scheme/index?from=' + from })
     },
     // 设置回调事件
     async eventBusCallBack (res) {
       let { msgCode, data = {} } = res
-      let logMsg = this.EventBus.logMsg[msgCode]
+      let logMsg = msgCode ? this.EventBus.logMsg[msgCode] : {}
       let toast = logMsg.toast
       // 1.将本次事件处理完成
       switch (msgCode) {
@@ -199,6 +201,19 @@ export default {
           break
         case this.EventBus.COMMAND_FAIL: // 指令发送失败
           this.toast(data)
+          break
+        case this.EventBus.FIRMWARE_READY: // 准备升级固件
+          // uni.showLoading({ title: logMsg.log })
+          break
+        case this.EventBus.FIRMWARE_UNREADY: // 无法升级固件
+          {
+            let [, errorType,] = data.rawData.split(',')
+            toast += { 1: '指令错误', 2: '电量不足' }[errorType]
+          }
+          break
+        case this.EventBus.FIRMWARE_FAIL: // 升级固件校验错误
+        case this.EventBus.FIRMWARE_FINISH: // 固件升级完毕
+          uni.hideLoading()
           break
       }
       // 2.处理状态
@@ -252,14 +267,21 @@ export default {
           // console.log('长连接心跳包', msgCode, data, this.handleLongRecived)
           await this.handleLongRecived(data)
           break
+        case this.EventBus.FIRMWARE_READY: // 准备升级固件
+          await this.globalData.firmwareUpdate()
+          break
+        case this.EventBus.FIRMWARE_FAIL: // 升级固件校验错误
+          this.globalData.firmware = false
+          this.libs.data.exit('升级固件校验错误，请重启APP和设备')
+          break
       }
     },
     handlePair (boolean) {
       console.log('设备配对结果', boolean, this.globalData.handlePair)
       let _page = this.getPageUrl()
       switch (_page) {
-        case 'pages/bluetooth/connect':
-        case 'pages/scheme/index':
+        case 'bluetooth/connect':
+        case 'scheme/index':
           this.globalData.handlePair(boolean)
           break
       }
@@ -301,11 +323,11 @@ export default {
         console.log('训练方案', this.globalData.workout)
 
         switch (_page) {
-          case 'pages/bluetooth/running':
+          case 'bluetooth/running':
             if (this.globalData.handleRecord) await this.globalData.handleRecord(data)
             break
           default:
-            uni.reLaunch({ url: '/pages/bluetooth/running' })
+            uni.reLaunch({ url: '/bluetooth/running' })
         }
         return
       }
@@ -327,9 +349,9 @@ export default {
       if (_res) this.clearRecord()
       // this.libs.data.removeStorage(recordId)
       delete this.globalData.workoutRecord
-      // let whithPage = ['pages/scheme/index', 'pages/bluetooth/setCurrent']
-      // let whithPage = ['pages/scheme/index']
-      // if (!whithPage.includes(_page)) uni.reLaunch({ url: '/pages/scheme/index?from=' + _page.split('/').slice(-1).join() })
+      // let whithPage = ['scheme/index', 'bluetooth/setCurrent']
+      // let whithPage = ['scheme/index']
+      // if (!whithPage.includes(_page)) uni.reLaunch({ url: '/scheme/index?from=' + _page.split('/').slice(-1).join() })
       // return
       // }
     },
@@ -360,8 +382,8 @@ export default {
       //   this.getPageUrl()
       // )
       // switch (this.getPageUrl()) {
-      //   case 'pages/bluetooth/running':
-      //   case 'pages/bluetooth/setCurrent':
+      //   case 'bluetooth/running':
+      //   case 'bluetooth/setCurrent':
       // if (data.stateRunning==='3'||data.stateRunning==='4'){
       // 		this.endTreatment()
       // 		this.reLaunchIndex()
@@ -586,6 +608,11 @@ export default {
     // 设置指令发送完的callback
     commandCallback (id, fun, once) {
       return this.BioStimBleModule.commandCallback(id, fun, once)
+    },
+    // 固件更新
+    firmwareReady (boardA, countA, lenA, boardB = 0, countB = 0, lenB = 0) {
+      console.log('固件更新', boardA, countA, lenA, boardB, countB, lenB)
+      return this.BioStimBleModule.firmwareReady({ boardA, countA, lenA, boardB, countB, lenB })
     }
   }
 }

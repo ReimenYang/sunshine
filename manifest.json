@@ -138,7 +138,8 @@
             "scope.userLocation" : {
                 "desc" : "申请位置权限"
             }
-        }
+        },
+        "lazyCodeLoading" : "requiredComponents"
     },
     "mp-alipay" : {
         "usingComponents" : true,

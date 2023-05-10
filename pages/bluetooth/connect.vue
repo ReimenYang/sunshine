@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrapBox"
-    :style="{'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <p-wrap>
       <view class="itemBox">
@@ -10,7 +10,7 @@
         </view>
         <image
           class="guide"
-          :src="globalData.config.guideConnect"
+          :src="guideConnect"
           mode="widthFix"
         />
       </view>
@@ -25,13 +25,15 @@
 </template>
 <script>
 import mixinBLE from '@/pages/index/mixinBLE.js'
-import connectBle from '@/pages/bluetooth/_connect'
+import connectBle from './_connect'
 export default {
   mixins: [mixinBLE],
   components: { connectBle },
   data () {
     return {
-      nextTo: '/pages/scheme/index'
+      nextTo: '/scheme/index',
+      guideConnect: this.globalData.config.guideConnect,
+      theme: `--theme-color:${this.globalData.config.theme} `
     }
   },
   async onLoad (option) {

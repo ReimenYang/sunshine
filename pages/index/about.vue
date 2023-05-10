@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrap bg"
-    :style="{'--contactBg': `url(${globalData.config.contactBg})`,'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <p-header title="关于我们" />
     <p-wrap
@@ -31,6 +31,9 @@
         >
           退出登录
         </view>
+        <view class="btn">
+          <firmware-update />
+        </view>
       </view>
       <view
         class="setPassword"
@@ -54,7 +57,9 @@
   </view>
 </template>
 <script>
+import firmwareUpdate from '@/pages/index/_firmwareUpdate'
 export default {
+  components: { firmwareUpdate },
   data () {
     return {
       modifyPassword: false,
@@ -69,7 +74,8 @@ export default {
           key: 'newPasswordRepeat', title: '重复密码',
           input: { value: '', placeholder: '请输入', password: true }
         }]
-      }
+      },
+      theme: `--contactBg: url(${this.globalData.config.contactBg});--theme-color:${this.globalData.config.theme} `
     }
   },
   methods: {

@@ -1,5 +1,42 @@
 <template>
   <view class="form">
+    <!-- #ifdef MP-WEIXIN  -->
+    <view
+      v-for=" item in config.data"
+      :key="item.title"
+      :class="'formGroup ' + (!!(item.onclick || item.picker || item.link) && 'more ') + item.setClass"
+      :style="item.style"
+      @click="onclick(item)"
+    >
+      <view class="title">
+        {{ item.title }}
+      </view>
+      <view class="txt">
+        <!-- 数字控件 -->
+        <xnw-number
+          v-if="item.number"
+          :min="item.number.min"
+          :max="item.number.max"
+          :step="item.number.step"
+          :typeDisabled="item.number.typeDisabled"
+          :style="item.number.style"
+          :value="item.number.value"
+          :disabled="item.number.disabled"
+          @change="val=> onchange(val,item,{},'number')"
+          @minus="val => onMinus(val,item)"
+          @plus="val => onPlus(val,item)"
+        />
+        <!-- 文本 -->
+        <view
+          class="text"
+          v-else
+        >
+          {{ item.textContent }}
+        </view>
+      </view>
+    </view>
+    <!-- #endif -->
+
     <!-- #ifndef MP-WEIXIN  -->
     <!-- 小程序不支持v-bind,临时屏蔽 -->
     <view
@@ -225,8 +262,23 @@ export default {
       }
       if (item[component].change) return item[component].change(val, item, e, component, 'change')
     },
-    onMinus (val, item) { if (item.number.onMinus) return item.number.onMinus(val, item, 'minus') },
-    onPlus (val, item) { if (item.number.onPlus) return item.number.onPlus(val, item, 'plus') },
+    onMinus (val, item) {
+      console.log('onMinus', val, item, item.number.onMinus)
+      // #ifndef MP-WEIXIN
+      if (item.number.onMinus) return item.number.onMinus(val, item, 'minus')
+      // #endif
+      // #ifdef MP-WEIXIN
+      if (this.globalData.currentChange) return this.globalData.currentChange(val, item, 'minus')
+      // #endif
+    },
+    onPlus (val, item) {
+      // #ifndef MP-WEIXIN
+      if (item.number.onPlus) return item.number.onPlus(val, item, 'plus')
+      // #endif
+      // #ifdef MP-WEIXIN
+      if (this.globalData.currentChange) return this.globalData.currentChange(val, item, 'plus')
+      // #endif
+    },
     ontextarea (val, item, e, action) {
       switch (action) {
         case 'input':

@@ -41,6 +41,8 @@ export default {
       type: String,
       default: '确定'
     },
+
+    // #ifndef MP-WEIXIN
     onConfirm: {
       type: Function,
       default: () => true
@@ -49,6 +51,7 @@ export default {
       type: Function,
       default: () => true
     },
+    // #endif
     isFix: {
       type: Boolean,
       default: false
@@ -61,9 +64,11 @@ export default {
     },
     async handleSubmit () {
       let _v = true
+      // #ifndef MP-WEIXIN
       if (this.onConfirm) _v = await this.onConfirm()// 此方法直接返回布尔值判断是否拦截，小程序不适用
       if (!_v) return
       this.onCancel()
+      // #endif
       this.$emit('onConfirm', _v)// 此方法需要父级二次设置状态，所有平台适用
     }
   }

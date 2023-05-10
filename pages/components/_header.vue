@@ -1,5 +1,5 @@
 <template>
-  <view class="header">
+  <view class="head">
     <xnw-header
       @onBack="onBack"
       :title="title"
@@ -29,7 +29,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.header /deep/ .header {
+.head /deep/ .header {
   width: 100%;
   height: 150rpx;
   padding-top: calc(30rpx + var(--status-bar-height));

@@ -395,6 +395,17 @@ const DeviceCmd = {
    */
   endTreatment ({ command, channel }) {
     return commandFormat(3, 2, command || getCmd(commandBuilder('k', channel, 8)))
+  },
+
+  /**
+   * 固件升级
+   * DATA:g,<board>,<count>,<sum>\r\n\0
+   * <board> 升级板类型：1主控板；2通道板
+   * <count> :bin文件大小
+   * @return
+   */
+  firmwareReady ({ boardA, countA, lenA, boardB, countB, lenB }) {
+    return getCmd(commandBuilder('g', boardA, countA, lenA, boardB, countB, lenB))
   }
 }
 

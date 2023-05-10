@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrapBox themeBg"
-    :style="{'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <p-header
       backIcon="show"
@@ -38,7 +38,8 @@ export default {
   data () {
     return {
       imageList: [],
-      index: 0
+      index: 0,
+      theme: `--theme-color:${this.globalData.config.theme} `
     }
   },
   onShow () {

@@ -21,13 +21,19 @@ export class BTSResponseModule {
       ACK: {
         c: EventBus.GET_SERIALNO,
         r: EventBus.GET_RECORD,
-        e: EventBus.SET_INIT// 多通道有问题
+        e: EventBus.SET_INIT, // 多通道有问题
+        g: EventBus.FIRMWARE_READY,
+        i: EventBus.FIRMWARE_FINISH,
       },
       DATA: {
         s: EventBus.LONG_RECIVED,
         r: EventBus.GET_RECORD,
         k: EventBus.SET_CURRENT,
         c: EventBus.GET_SERIALNO
+      },
+      ERR: {
+        g: EventBus.FIRMWARE_UNREADY,
+        h: EventBus.FIRMWARE_FAIL
       }
     }
     this.data = {}
@@ -67,13 +73,18 @@ export class BTSResponseModule {
           }
           break
       }
-      // 调用总线首发通知
+      // 调用总线发通知
       this.msgCode = msgCodeList[key][type]
       if (this.msgCode) EventBus.post(new EventBus(this.msgCode, this.data))
     }
+
     if (key.startsWith('ERR')) {
       console.error('捕捉到错误指令', statusPages)
+      // 调用总线发通知
+      this.msgCode = msgCodeList[key][type]
+      if (this.msgCode) EventBus.post(new EventBus(this.msgCode, this.data))
     }
+
     // ACK和ERR到此结束
     if (this.data.isFullPackage) return
 
@@ -132,7 +143,8 @@ export class BTSResponseModule {
           // <MachineId> 24位机器ID号,不参与Sum的计算
           // <SerialNumber> 产品属性,不参与Sum的计算（xxxx-xxx-xxx）
           // Data为版本日期（MMDD）
-          // <Version>代表设备的版本号，优E康是1
+          // <Version>代表设备控制板版本号
+          // <Ch1Version>,<Ch2Version>,<Ch3Version> 通道版本号，0的通道代表没有通道板
           // <Sum>MachineId,SerialNumber不参与Sum的计算
           let [machineId, serialNumber, data, version, ch1Ver, ch2Ver, ch3Ver, sum] = option
           // MachineId,SerialNumber不参与Sum的计算
@@ -178,7 +190,7 @@ export class BTSResponseModule {
     this.data.isFullPackage = (type.charCodeAt() + option.reduce((a, b) => parseInt(a) + parseInt(b))) === parseInt(this.data.sum) * 2
     // option里含有sum，相当于计算了2次，所以要对比sum*2的值
 
-    // 调用总线首发通知
+    // 调用总线发通知
     this.msgCode = msgCodeList[key][type]
 
     if (this.msgCode) EventBus.post(new EventBus(this.msgCode, this.data))

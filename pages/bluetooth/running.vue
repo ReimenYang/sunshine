@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrap"
-    :style="{'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <clock
       class="info"
@@ -59,7 +59,7 @@
 <script>
 import clock from '@/libs/components/uniapp/simplePie/simplePie.vue'
 import mixinBLE from '@/pages/index/mixinBLE.js'
-import setCurrent from '@/pages/bluetooth/_setCurrent'
+import setCurrent from './_setCurrent'
 export default {
   components: { clock, setCurrent },
   mixins: [mixinBLE],
@@ -73,7 +73,8 @@ export default {
       isRunning: null,
       holdState: false, // 拦截心跳包改变状态
       phaseNumber: 0,
-      setRecordIntervalTime: 2000, // r指令获取周期
+      setRecordIntervalTime: 2000, // r指令获取周期,
+      theme: `--theme-color:${this.globalData.config.theme} `
     }
   },
   async onLoad () {

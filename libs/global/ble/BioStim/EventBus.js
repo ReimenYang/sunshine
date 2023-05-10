@@ -59,6 +59,11 @@ export default class EventBus {
   static GET_SERIALNO = 'getSerialno'// 设备序列号数据，蓝牙连接成功后只回调一次
   static GET_RECORD = 'getRecord'// 获取硬件的最后一个训练程序的状态
 
+  static FIRMWARE_READY = 'firmwareReady'// 准备升级固件
+  static FIRMWARE_UNREADY = 'firmwareUnready'// 无法升级固件
+  static FIRMWARE_FAIL = 'firmwareFail'// 升级固件校验错误
+  static FIRMWARE_FINISH = 'firmwareFinish'// 固件升级完毕
+
   static logMsg = {
     bleReady: {
       log: '完成初始化',
@@ -176,7 +181,22 @@ export default class EventBus {
     },
     getRecord: {
       log: '程序的状态'
-    }
+    },
+    firmwareReady: {
+      log: '准备升级固件'
+    },
+    firmwareUnready: {
+      toast: '无法升级固件',
+      log: '无法升级固件'
+    },
+    firmwareFail: {
+      toast: '升级固件校验错误',
+      log: '升级固件校验错误'
+    },
+    // firmwareFinish: {
+    //   toast: '固件升级完毕',
+    //   log: '固件升级完毕'
+    // }
   }
 
   // eslint-disable-next-line space-before-function-paren

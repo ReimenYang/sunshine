@@ -1,9 +1,9 @@
 <template>
   <view
     class="wrap indexBg"
-    :style="{'--indexBg': `url(${globalData.config.indexBg})`,'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
-    <p-header :title="globalData.config.appName" />
+    <p-header :title="config.appName" />
     <p-wrap
       :hasHeader="true"
       :hasFooter="true"
@@ -29,7 +29,7 @@
         class="unPaired"
         v-if="!bleState.paired"
         @click="toConnect()"
-        :style="setBg()"
+        :style="bg"
       >
         <view
           v-if="device.name"
@@ -65,7 +65,7 @@
           </xnw-item>
         </view>
       </view>
-      <!-- 发送长度：<input
+      发送长度：<input
         type="number"
         v-model="l"
       >K
@@ -92,7 +92,10 @@
         >
           一次性发送
         </view>
-      </view> -->
+        <view class="btn">
+          <firmware-update :time="t" />
+        </view>
+      </view>
     </p-wrap>
     <p-menu :defaultIndex="0" />
   </view>
@@ -100,17 +103,22 @@
 <script>
 import mixinBLE from '@/pages/index/mixinBLE.js'
 import mixinWorkoutList from '@/pages/index/mixinWorkoutList.js'
+import firmwareUpdate from '@/pages/index/_firmwareUpdate'
 export default {
+  components: { firmwareUpdate },
   mixins: [mixinBLE, mixinWorkoutList],
   data () {
     return {
       userInfo: {
-        post: '/static/face.png'
+        post: this.globalData.config.face
       },
       from: '',
+      config: this.globalData.config,
       RecordId: 0,
       l: 100,
-      t: 10
+      t: 50,
+      bg: `background-image: url("${this.globalData.config.unLink}")`,
+      theme: `--indexBg:url(${this.globalData.config.indexBg});--theme-color:${this.globalData.config.theme} `
     }
   },
   async onLoad (option) {
@@ -119,6 +127,14 @@ export default {
       await this.request(this.api.ECirculation.scheme.getImageList)
     ).data
     this.globalData.imageList.forEach(item => item.id = String(item.id))
+  },
+  watch: {
+    'device': {
+      handle: function () {
+        this.bg = `background-image: url("${this.device.name ? this.config.neverLink : this.config.unLink}")`
+      },
+      deep: true
+    }
   },
   onHide () {
     delete this.globalData.pageInit
@@ -180,7 +196,7 @@ export default {
       let _connected = this.bleState.paired ? {} : await this.connectDevice()
       console.log('连接情况', _connected)
       if (!this.bleState.paired && _connected.statusCode !== 200)
-        return uni.navigateTo({ url: '/pages/bluetooth/connect' })
+        return uni.navigateTo({ url: '/bluetooth/connect' })
       // if(this.globalData.paired) return this.getRecord()
     },
     async toReady (workout) {
@@ -198,11 +214,11 @@ export default {
       // 此时可能处于匹配状态
       uni.navigateTo({ url: '/pages/bluetooth/paste' })
     },
-    setBg () {
-      if (this.device.name)
-        return 'background-image: url("/static/neverLink.png")'
-      return 'background-image: url("/static/unLink.png")'
-    },
+    // setBg () {
+    //   if (this.device.name)
+    //     return 'background-image: url("/static/neverLink.png")'
+    //   return 'background-image: url("/static/unLink.png")'
+    // },
     test () {
       let l = this.l
       let length = 5 * 10 * l

@@ -3,14 +3,14 @@
     <view class="title">
       <image
         class="logo"
-        :src="globalData.config.logo"
+        :src="config.logo"
       />
       <view class="row">
         <view class="welcome">
           欢迎使用
         </view>
         <view class="appName">
-          {{ globalData.config.appName }}App
+          {{ config.appName }}App
         </view>
       </view>
     </view>
@@ -45,7 +45,8 @@ export default {
   data () {
     return {
       error: '',
-      phone: ''
+      phone: '',
+      config: this.globalData.config
     }
   },
   async onLoad () {

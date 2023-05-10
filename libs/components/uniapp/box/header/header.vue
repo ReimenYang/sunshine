@@ -141,4 +141,24 @@ export default {
     color: var(--color-tips);
   }
 }
+// #ifdef MP-WEIXIN
+.header {
+  width: auto;
+  min-height: 50rpx;
+  padding: calc(30rpx + var(--status-bar-height)) 0 0;
+  flex: 1;
+  .backIcon {
+    width: 80rpx;
+    line-height: 80rpx;
+    margin-right: -80rpx;
+    position: relative;
+    font-size: var(--font-h3);
+    color: #fff;
+  }
+  .title {
+    text-align: center;
+    color: #fff;
+  }
+}
+// #endif
 </style>

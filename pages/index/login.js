@@ -1,11 +1,12 @@
 // 系统启动后会对libs进行建全和直接引用的libs有所不同，因此init需要在启动系统后，uniapp启动前执行
 import libs from '@/libs'
 
+let { mode, vision, updateTime, globalData, deviceTypeId, userRole, subName } = libs.configProject
 let univerifyStyle = { // 一键登录设置
   force: true, // 自定义强制登录参数，不登录则退出程序，默认值： false
   fullScreen: true, // 是否全屏显示，默认值： false
-  icon: { path: '/static/logo.png' },
-  closeIcon: { path: '/static/transparent.png' }, // 自定义关闭按钮，仅支持本地图片。 HBuilderX3.3.7+版本支持
+  icon: { path: globalData.config.logo },
+  closeIcon: { path: globalData.config.transparent }, // 自定义关闭按钮，仅支持本地图片。 HBuilderX3.3.7+版本支持
   otherLoginButton: {
     visible: true, // 是否显示其他登录按钮，默认值：true
     callBack () {
@@ -13,7 +14,6 @@ let univerifyStyle = { // 一键登录设置
     }
   }
 }
-let { mode, vision, updateTime, globalData, deviceTypeId, userRole, subName } = libs.configProject
 let login = async () => {
   let phone = libs.data.getStorage('phone')
   let accessToken = ''
@@ -32,6 +32,11 @@ let login = async () => {
     appid,
     phone
   }
+
+  // #ifdef MP-WEIXIN
+  getApp().globalData.X.configProject.globalData.headers = globalData.headers
+  // #endif
+
   // 已经有用户信息
   console.log(userRole, '已经有用户信息', globalData.userInfo)
   if (globalData.userInfo) return { statusCode: 201, data: globalData.userInfo }

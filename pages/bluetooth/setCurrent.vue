@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrapBox themeBg"
-    :style="{'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <p-header
       backIcon="show"
@@ -23,10 +23,15 @@
 </template>
 <script>
 import mixinBLE from '@/pages/index/mixinBLE.js'
-import setCurrent from '@/pages/bluetooth/_setCurrent'
+import setCurrent from './_setCurrent'
 export default {
   mixins: [mixinBLE],
   components: { setCurrent },
+  data () {
+    return {
+      theme: `--theme-color:${this.globalData.config.theme} `
+    }
+  },
   onBackPress () {
     this.endTreatment()
     delete this.globalData.deviceState

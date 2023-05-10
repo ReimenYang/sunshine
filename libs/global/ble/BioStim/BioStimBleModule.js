@@ -195,7 +195,7 @@ let writePort = async command => {
 }
 
 // 监听蓝牙开关打开状态,自动开始监听，蓝牙状态改变会执行两次，后一次才是真实状态
-// #ifdef APP
+// #ifndef H5
 !(async function onBluetoothAdapterStateChange () {
   let bleOnline = BioStimBleModule.bleState.bleOnline = baseBleModule.bluetoothState()
   console.log('打开客户端蓝牙状态监听', bleOnline)
@@ -231,7 +231,7 @@ BioStimBleModule.openBluetoothAdapter = async (autoInit = BioStimBleModule.autoI
   if (BioStimBleModule.autoInit !== autoInit) BioStimBleModule.autoInit = autoInit
   let { bleReady, bleOnline } = BioStimBleModule.bleState
   console.log('蓝牙状态', bleOnline, '服务状态', bleReady, '自启用', autoInit)
-  let res
+  let res = {}
   if (!bleOnline) res = { statusCode: 500, err: { errMsg: '客户端蓝牙未打开' } }
   if (bleReady) res = { statusCode: 200, err: { errMsg: '蓝牙服务已启用' } }
   if (bleOnline && !bleReady) res = await baseBleModule.openBluetoothAdapter()
@@ -262,6 +262,7 @@ BioStimBleModule.closeBluetoothAdapter = async () => {
  */
 BioStimBleModule.turnOnBluetoothSwitch = () => {
   showToast('您的蓝牙没有打开，请打开蓝牙')
+  // #ifdef APP-PLUS
   if (platform === 'ios') return plus.runtime.openURL(encodeURI('prefs:root=Bluetooth')) // 测试没有效果
   let main = plus.android.runtimeMainActivity()
   let Context = plus.android.importClass('android.content.Context')
@@ -271,6 +272,7 @@ BioStimBleModule.turnOnBluetoothSwitch = () => {
   plus.android.importClass(BAdapter) // 引入相关的method函数，这样之后才会有isEnabled函数支持
   if (BAdapter.isEnabled()) return
   BAdapter.enable()
+  // #endif
 }
 
 // 设置 排除搜索到的不需要显示的设备方法
@@ -597,6 +599,13 @@ BioStimBleModule.pauseTreatment = ({ command, channel }) => {
 BioStimBleModule.endTreatment = async ({ command, channel }) => {
   await writePort(DeviceCmd.endTreatment(({ command, channel })))
   // await BioStimBleModule.closeBLEConnection()
+}
+
+/**
+ * 固件升级
+ */
+BioStimBleModule.firmwareReady = async ({ boardA, countA, lenA, boardB = 0, countB = 0, lenB = 0 }) => {
+  await writePort(DeviceCmd.firmwareReady(({ boardA, countA, lenA, boardB, countB, lenB })))
 }
 
 // 断开蓝牙连接

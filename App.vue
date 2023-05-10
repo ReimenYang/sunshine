@@ -20,7 +20,11 @@ export default {
     }
     let subName = libs.configProject.subName
     // let urlImg = libs.configProject.urlImg + 'consume/' + subName
-    let urlImg = '/static/' + subName
+    let url = '/static/'
+    // #ifdef MP-WEIXIN
+    url = 'http://download.health10.cn/ECirculation/mpWeixinStatic/'
+    // #endif
+    let urlImg = url + subName
     globalData.config = {
       ...config[subName],
       logo: urlImg + '/logo.png',
@@ -31,6 +35,11 @@ export default {
       guideConnect: urlImg + '/guide_connect.png',
       guideMaterial2: urlImg + '/guide_material2.png',
       guideMaterial3: urlImg + '/guide_material3.png',
+      loading: url + 'loading.gif',
+      transparent: url + 'transparent.png',
+      neverLink: url + 'neverLink.png',
+      unLink: url + 'unLink.png',
+      face: url + 'face.png'
     }
   },
   onShow: function () {
@@ -53,7 +62,13 @@ page {
   background: var(--color-background);
 }
 .themeBg {
+  // #ifdef MP-WEIXIN
+  background: url("http://download.health10.cn/ECirculation/mpWeixinStatic/index_bg.png")
+    no-repeat top center/100%;
+  // #endif
+  // #ifndef MP-WEIXIN
   background: url("/static/index_bg.png") no-repeat top center/100%;
+  // #endif
 }
 .itemBoxTitle {
   padding: 40rpx 0 20rpx;

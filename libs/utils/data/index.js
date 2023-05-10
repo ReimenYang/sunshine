@@ -2,7 +2,7 @@ import object from '../object'
 import initUni from './uni'
 import page from './page'
 import verify from './verify'
-import { Interpreter } from 'eval5'
+// import { Interpreter } from 'eval5'
 import { framework } from '@/projectConfig.js'
 
 let data = async () => {
@@ -124,26 +124,26 @@ data.getCookie = name => {
   if (window) return object.paramsToKeyValue(document.cookie, '; ')[name]
 }
 // eval 类似window的eval函数，str：字符串化的执行代码，obj：一般情况下传入vue的实例this，如果有特殊需求可以自定义传入
-data.eval = (str, obj) => {
-  let rootContext
-  // #ifdef H5
-  if (window) rootContext = window
-  // #endif
+// data.eval = (str, obj) => {
+//   let rootContext
+//   // #ifdef H5
+//   if (window) rootContext = window
+//   // #endif
 
-  // #ifdef MP-WEIXIN
-  if (getApp().globalData) rootContext = getApp().globalData
-  // #endif
-  const interpreter = new Interpreter(obj, {
-    rootContext,
-    timeout: 1000,
-    ecmaVersion: 7
-  })
-  try {
-    return interpreter.evaluate(str)
-  } catch (e) {
-    console.log(e)
-  }
-}
+//   // #ifdef MP-WEIXIN
+//   if (getApp().globalData) rootContext = getApp().globalData
+//   // #endif
+//   const interpreter = new Interpreter(obj, {
+//     rootContext,
+//     timeout: 1000,
+//     ecmaVersion: 7
+//   })
+//   try {
+//     return interpreter.evaluate(str)
+//   } catch (e) {
+//     console.log(e)
+//   }
+// }
 data.createNonceStr = (length = 16) => {
   let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
   let str = ''
@@ -202,28 +202,28 @@ data.sha1 = (str) => {
   }).join('')
   return hex
 }
-import CryptoJS from './crypto-js.js'
 
-/*
-    DES(Data Encryption Standard)和TripleDES是对称加密的两种实现。
-    DES和TripleDES基本算法一致，只是TripleDES算法提供的key位数更多，加密可靠性更高。
-    DES使用的密钥key为8字节，初始向量IV也是8字节。
-    TripleDES使用24字节的key，初始向量IV也是8字节。
-*/
-// des加密/解密 DES-EDE3-CBC
-data.des = (message, key, iv, type = 'encrypt') => {
-  // let _key = CryptoJS.MD5(key).toString()
-  // let _iv = CryptoJS.MD5(iv || key).toString()
-  let crypto_key = CryptoJS.enc.Utf8.parse(key)
-  let crypto_iv = CryptoJS.enc.Utf8.parse(iv.substr(0, 8))
-  let _str = CryptoJS.TripleDES[type](message, crypto_key, {
-    iv: crypto_iv,
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7
-  })
-  if (type === 'encrypt') return _str.toString()
-  if (type === 'decrypt') return _str.toString(CryptoJS.enc.Utf8)
-}
+// import CryptoJS from './crypto-js.js'
+// /*
+//     DES(Data Encryption Standard)和TripleDES是对称加密的两种实现。
+//     DES和TripleDES基本算法一致，只是TripleDES算法提供的key位数更多，加密可靠性更高。
+//     DES使用的密钥key为8字节，初始向量IV也是8字节。
+//     TripleDES使用24字节的key，初始向量IV也是8字节。
+// */
+// // des加密/解密 DES-EDE3-CBC
+// data.des = (message, key, iv, type = 'encrypt') => {
+//   // let _key = CryptoJS.MD5(key).toString()
+//   // let _iv = CryptoJS.MD5(iv || key).toString()
+//   let crypto_key = CryptoJS.enc.Utf8.parse(key)
+//   let crypto_iv = CryptoJS.enc.Utf8.parse(iv.substr(0, 8))
+//   let _str = CryptoJS.TripleDES[type](message, crypto_key, {
+//     iv: crypto_iv,
+//     mode: CryptoJS.mode.CBC,
+//     padding: CryptoJS.pad.Pkcs7
+//   })
+//   if (type === 'encrypt') return _str.toString()
+//   if (type === 'decrypt') return _str.toString(CryptoJS.enc.Utf8)
+// }
 
 data.listFormat = ({
   records: list,

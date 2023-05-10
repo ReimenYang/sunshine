@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrap bg"
-    :style="{'--contactBg': `url(${globalData.config.contactBg})`,'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <p-header title="联系我们" />
     <p-wrap
@@ -47,7 +47,8 @@ export default {
           { title: '如何使用电极片' }
         ]
       },
-      appVersion: ''
+      appVersion: '',
+      theme: `--contactBg: url(${this.globalData.config.contactBg});--theme-color:${this.globalData.config.theme} `
     }
   },
   async onLoad () {

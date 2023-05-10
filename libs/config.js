@@ -1,5 +1,6 @@
 import project from '../projectConfig.js'
 const { mode, projectName, webDeveloper, framework } = project // dev开发环境、test测试环境、produce正式环境、demo演示环境、pre预发布环境
+
 let globalData = {}
 let apiServers = {}, host = {}
 switch (projectName) {
@@ -11,6 +12,7 @@ switch (projectName) {
       produce: 'http://consume.sspendi.com'
     }
     host.dev = 'http://' + webDeveloper
+    host.produce = 'https://health10.cn'
     break
   default:
     apiServers = {
@@ -150,5 +152,4 @@ const config = {
   urlPage: setting.buildPath(mode, projectName),
   globalData
 }
-
 export default config

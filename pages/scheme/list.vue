@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrap"
-    :style="{'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <p-wrap :hasFooter="true">
       <view class="btnGroup">
@@ -46,6 +46,11 @@
 import mixinWorkoutList from '@/pages/index/mixinWorkoutList.js'
 export default {
   mixins: [mixinWorkoutList],
+  data () {
+    return {
+      theme: `--theme-color:${this.globalData.config.theme} `
+    }
+  },
   async onShow () {
     await this.init()
   },

@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrapBox"
-    :style="{'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <p-wrap :hasFooter="true">
       <view class="itemBox">
@@ -67,7 +67,8 @@ export default {
         { type: 'a50', quantity: '1' },
         { type: 'c1770', quantity: '2' },
         { type: 'g2153', quantity: '1' }
-      ]
+      ],
+      theme: `--theme-color:${this.globalData.config.theme} `
     }
   },
   async onLoad () {

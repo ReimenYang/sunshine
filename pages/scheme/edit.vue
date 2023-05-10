@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrap"
-    :style="{'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <p-wrap>
       <base-info
@@ -59,7 +59,8 @@ export default {
       },
       workoutEdit: this.globalData.workoutEdit,
       spliceList: [],
-      channelConfig: [{ splice: [], channelFrom: { data: [] }, phaseFrom: [] }]
+      channelConfig: [{ splice: [], channelFrom: { data: [] }, phaseFrom: [] }],
+      theme: `--theme-color:${this.globalData.config.theme} `
     }
   },
   async onLoad () {

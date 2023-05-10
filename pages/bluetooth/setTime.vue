@@ -1,7 +1,7 @@
 <template>
   <view
     class="wrapBox themeBg"
-    :style="{'--theme-color':globalData.config.theme}"
+    :style="theme"
   >
     <p-header
       backIcon="show"
@@ -39,7 +39,8 @@ export default {
   mixins: [mixinBLE],
   data () {
     return {
-      time: this.globalData.workout.duration / 60 // 单位：分
+      time: this.globalData.workout.duration / 60, // 单位：分,
+      theme: `--theme-color:${this.globalData.config.theme} `
     }
   },
   methods: {

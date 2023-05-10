@@ -1,17 +1,17 @@
 <template>
   <view
     class="pieBox"
-    :style="`--color-empty: ${colorEmpty}; --color-value: ${colorValue};--size:${size}`"
+    :style="color"
   >
-    <view :class="`pie ${percent>.5?'more':''}`">
+    <view :class="{pie:true, more: percent>.5} ">
       <view
         class="runner"
-        :style="`transform: rotate(${percent}turn);`"
+        :style="runnerStyle"
       />
     </view>
     <view
       class="cover"
-      :style="coverBg&&`background-image:url(${coverBg})`"
+      :style="coverBg"
     >
       <slot />
     </view>
@@ -40,6 +40,27 @@ export default {
       type: Number,
       default: .8
     }
+  },
+  data () {
+    return {
+      color: '',
+      runnerStyle: '',
+      coverStyle: ''
+    }
+  },
+  watch: {
+    percent: function () { this.init() },
+    coverBg: function () { this.init() }
+  },
+  created () {
+    this.init()
+  },
+  methods: {
+    init () {
+      this.runnerStyle = `transform: rotate(${this.percent}turn);`
+      this.coverStyle = this.coverBg ? `background-image:url(${this.coverBg})` : ''
+      this.color = `--color-empty: ${this.colorEmpty}; --color-value: ${this.colorValue};--size:${this.size}`
+    }
   }
 }
 </script>
@@ -47,6 +68,7 @@ export default {
 .pieBox {
   width: var(--size);
   height: var(--size);
+  margin: auto;
   position: relative;
   display: flex;
   align-items: center;
@@ -90,7 +112,13 @@ export default {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    // #ifdef MP-WEIXIN
+    background: url("http://download.health10.cn/ECirculation/mpWeixinStatic/coverBg.png")
+      no-repeat center/100%;
+    // #endif
+    // #ifndef MP-WEIXIN
     background: url("./coverBg.png") no-repeat center/100%;
+    // #endif
   }
 }
 </style>

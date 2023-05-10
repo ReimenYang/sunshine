@@ -55,9 +55,9 @@
 
 <script>
 // import mixinBLE from '@/pages/index/mixinBLE.js'
-import login from '@/pages/index/login.js'
-// import connectBle from '@/pages/bluetooth/_connect'
-import checkReady from '@/libs/uniInit'
+// import login from '/login/login.js'
+// import connectBle from '@/bluetooth/_connect'
+// import checkReady from '@/libs/uniInit'
 export default {
   // mixins: [mixinBLE],
   // components: { connectBle },
@@ -75,72 +75,73 @@ export default {
     }
   },
   async onLoad () {
-    // uni.redirectTo({ url: '/pages/scheme/index' })
+    uni.redirectTo({ url: '/login/index' })
     //  2022-9-14 需求跳过此页面
-    this.init()
+    // this.init()
   },
-  methods: {
-    async init () {
-      uni.showLoading({ title: '初始化...' })
+  // methods: {
+  //   async init () {
+  //     uni.showLoading({ title: '初始化...' })
 
-      await checkReady()
-      let userInfo = await login()
-      if (!userInfo) return uni.showToast({ title: '登录失败', icon: 'none', duration: 2000 })
-      // 检查用户信息
-      // this.userInfo = this.globalData.userInfo
-      // 优E康
-      // this.isNeed = !this.userInfo.realname
-      // 易循环
-      // this.showInput = { realname: !this.userInfo.realname, sn: !this.userInfo.sn }
-      // this.isNeed = Object.values(this.showInput).includes(true)
-      // 检查更新信息
-      let {
-        vision,
-        lowest,
-        lastest,
-        isForce,
-        showUpdate
-      } = this.globalData.updateAppConfig
-      this.setting.isForce = isForce
-      this.showUpdate = showUpdate
-      console.log(
-        lowest,
-        lastest,
-        vision,
-        this.setting.isForce,
-        this.showUpdate
-      )
-      uni.hideLoading()
-      if (!this.isNeed && !this.showUpdate && userInfo.statusCode !== 30002) return this.router()
-    },
-    onCancel () {
-      this.showUpdate = false
-      if (!this.isNeed) return this.router()
-    },
-    onConfirm () {
-      this.libs.data.exit('退出并下载更新app')
-    },
-    async submit () {
-      let { realname, sn } = this.userInfo
-      console.log(realname, sn)
-      if (!realname) return this.toast('请输入用户名')
-      if (!sn) return this.toast('请输入设备序列号')
-      this.globalData.userInfo = { ...this.userInfo, ...this.globalData.device }
-      let res = await this.libs.request(
-        this.libs.api.ECirculation.user.binding,
-        this.globalData.userInfo
-      )
-      if (res.code !== 200) return
-      return this.router()
-    },
-    router () {
-      if (this.libs.configProject.userRole === 'hospital' && !this.globalData.userInfo) return uni.reLaunch({ url: '/pages/index/loginPassword' })
-      uni.reLaunch({ url: '/pages/scheme/index' })
-    }
-  }
+  //     await checkReady()
+  //     let userInfo = await login()
+  //     if (!userInfo) return uni.showToast({ title: '登录失败', icon: 'none', duration: 2000 })
+  //     // 检查用户信息
+  //     // this.userInfo = this.globalData.userInfo
+  //     // 优E康
+  //     // this.isNeed = !this.userInfo.realname
+  //     // 易循环
+  //     // this.showInput = { realname: !this.userInfo.realname, sn: !this.userInfo.sn }
+  //     // this.isNeed = Object.values(this.showInput).includes(true)
+  //     // 检查更新信息
+  //     this.setting = { ...this.globalData.updateAppConfig, ...this.setting }
+  //     let {
+  //       vision,
+  //       lowest,
+  //       lastest,
+  //       isForce,
+  //       showUpdate
+  //     } = this.setting
+
+  //     this.showUpdate = showUpdate
+  //     console.log(
+  //       lowest,
+  //       lastest,
+  //       vision,
+  //       isForce,
+  //       this.showUpdate
+  //     )
+  //     uni.hideLoading()
+  //     if (!this.isNeed && !this.showUpdate && userInfo.statusCode !== 30002) return this.router()
+  //   },
+  //   onCancel () {
+  //     this.showUpdate = false
+  //     if (!this.isNeed) return this.router()
+  //   },
+  //   onConfirm () {
+  //     this.libs.data.exit('退出并下载更新app')
+  //   },
+  //   async submit () {
+  //     let { realname, sn } = this.userInfo
+  //     console.log(realname, sn)
+  //     if (!realname) return this.toast('请输入用户名')
+  //     if (!sn) return this.toast('请输入设备序列号')
+  //     this.globalData.userInfo = { ...this.userInfo, ...this.globalData.device }
+  //     let res = await this.libs.request(
+  //       this.libs.api.ECirculation.user.binding,
+  //       this.globalData.userInfo
+  //     )
+  //     if (res.code !== 200) return
+  //     return this.router()
+  //   },
+  //   router () {
+  //     if (this.libs.configProject.userRole === 'hospital' && !this.globalData.userInfo) return uni.reLaunch({ url: '/login/loginPassword' })
+  //     uni.reLaunch({ url: '/scheme/index' })
+  //   }
+  // }
 }
 </script>
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
 .wrap {
   height: 100vh;
   padding: 20rpx 60rpx;
@@ -172,4 +173,4 @@ export default {
     }
   }
 }
-</style>
+</style> -->
