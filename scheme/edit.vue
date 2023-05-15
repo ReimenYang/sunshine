@@ -64,9 +64,13 @@ export default {
     }
   },
   async onLoad () {
+    this.globalData.wxPage = { baseInfo: this.baseInfo }
     if (this.workoutEdit.id) await this.getSchemeDetail()
     await this.initData()
     await this.buildChannelConfig()
+    // #ifdef MP-WEIXIN
+    getApp().globalData.W = this
+    // #endif
   },
   methods: {
     stepTurning (n = 0) {
@@ -218,6 +222,9 @@ export default {
           }))
         }
       })
+      // #ifdef MP-WEIXIN
+      this.channelConfig.forEach(item => this.globalData.wxPage['signChannelConfig' + item.name[0]] = item.channelFrom)
+      // #endif
     },
     baseInfoConfirm (baseInfo) {
       this.workoutEdit.name = baseInfo.name
@@ -305,18 +312,30 @@ export default {
   padding-bottom: 100rpx;
   box-sizing: border-box;
   /deep/ {
+    .itemBox {
+      position: relative;
+    }
     .form {
       margin: 30rpx 0;
       .title,
       .txt {
         padding-right: 30rpx;
       }
+      // ifdef MP-WEIXIN
+      .checkbox .label {
+        width: 50%;
+        display: inline-block;
+        line-height: 3;
+        text-align: center;
+      }
+      // #endif
     }
     .fix {
       width: 100vw;
       position: fixed;
       bottom: 0;
       left: 0;
+      z-index: 2;
       .btn {
         line-height: 100rpx;
         border: none;

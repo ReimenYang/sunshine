@@ -111,6 +111,7 @@ export default {
       }
       ]
       this.showSetp = ''
+      this.globalData.wxPage.setting = this.settingPhase
     },
     phaseDel ({ channel, index }) {
       let phaseList = this.channelConfig.find(item => item.channelID === channel.channelID).phaseList

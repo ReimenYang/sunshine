@@ -2,6 +2,7 @@
   <view class="baseInfo">
     <xnw-from
       :config="baseInfo"
+      wxConfig="baseInfo"
       ref="baseInfo"
     />
     <view class="btnGroup fix">
@@ -22,9 +23,24 @@ export default {
       default: () => ({ data: [{}] })
     }
   },
+  data () {
+    return {
+      baseInfos: {}
+    }
+  },
+  created () {
+    this.baseInfos = this.baseInfo
+    // #ifdef MP-WEIXIN
+    this.baseInfos = this.globalData.wxPage.baseInfo
+    console.log(this.baseInfos)
+    // #endif
+  },
   methods: {
     hasError (key, type, action) {
       let target = this.baseInfo.data.find(item => item.key === key)
+      // #ifdef MP-WEIXIN
+      target = this.globalData.wxPage.baseInfo.data.find(item => item.key === key)
+      // #endif
       return target[type][action]('', target)
     },
     nextStep () {

@@ -92,11 +92,16 @@ export default {
 <style lang="scss" scoped>
 .wrap {
   height: 100vh;
+  /deep/ .workoutList {
+    width: calc(100vw - 40rpx);
+    padding: 20rpx;
+  }
   .btnGroup {
     margin: 50rpx;
   }
   .workoutList {
     /deep/ .itemBox {
+      width: auto;
       margin-bottom: 20rpx;
       position: relative;
       font-size: var(--font-h35);

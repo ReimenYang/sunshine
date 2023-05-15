@@ -295,8 +295,12 @@ export default {
   box-sizing: border-box;
 
   /deep/ .wrap {
-    padding: 20rpx;
     width: auto;
+    .userInfo,
+    .workout {
+      margin: 20rpx;
+    }
+
     // box-sizing: border-box;
   }
   &.indexBg {

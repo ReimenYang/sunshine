@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view v-if="this.config.length">
     <view
       class="channelConfig"
       v-for="(channel,i) in config"
@@ -9,6 +9,7 @@
       <view>{{ channel.name }}</view>
       <xnw-from
         :config="channel.channelFrom"
+        :wxConfig="'signChannelConfig'+channel.name[0]"
         ref="channelConfig"
       />
       <view class="phaseTitle">

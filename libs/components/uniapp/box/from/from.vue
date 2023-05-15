@@ -2,7 +2,7 @@
   <view class="form">
     <!-- #ifdef MP-WEIXIN  -->
     <view
-      v-for=" item in config.data"
+      v-for=" item in configs.data"
       :key="item.title"
       :class="'formGroup ' + (!!(item.onclick || item.picker || item.link) && 'more ') + item.setClass"
       :style="item.style"
@@ -26,6 +26,94 @@
           @minus="val => onMinus(val,item)"
           @plus="val => onPlus(val,item)"
         />
+        <!-- 输入框控件 -->
+        <input
+          class="input"
+          v-else-if="item.input"
+          :placeholder="item.input.placeholder"
+          v-model="item.input.value"
+          :password="item.input.password"
+          @input="(e)=>oninput('',item,e,'input')"
+          @focus="(e)=>oninput('',item,e,'focus')"
+          @blur="(e)=>oninput('',item,e,'blur')"
+          @confirm="(e)=>oninput('',item,e,'confirm')"
+          @keyboardheightchange="(e)=>oninput('',item,e,'keyboardheightchange')"
+        >
+        <!-- 多选控件 -->
+        <checkbox-group
+          @change="(e)=>onchange('',item,e,'checkbox')"
+          class="checkbox"
+          v-else-if="item.checkbox"
+        >
+          <label
+            class="label"
+            v-for="obj in item.checkbox.data"
+            :key="obj.value"
+          >
+            <checkbox
+              :label="obj.label"
+              :value="obj.value"
+              :disabled="obj.disabled"
+              :checked="obj.checked"
+              :color="obj.color"
+              :style="obj.style"
+              class="checkbox"
+            />
+            <text class="text">{{ obj.label }}</text>
+          </label>
+        </checkbox-group>
+        <!-- 单选控件 -->
+        <radio-group
+          @change="(e)=>onchange('',item,e,'radio')"
+          class="radio"
+          v-else-if="item.radio"
+        >
+          <label
+            class="label"
+            v-for="obj in item.radio.data"
+            :key="obj.value"
+          >
+            <radio
+              :label="obj.label"
+              :value="obj.value"
+              :disabled="obj.disabled"
+              :checked="obj.checked"
+              :color="obj.color"
+              :style="obj.style"
+              class="radio"
+            />
+            <text class="text">{{ obj.label }}</text>
+          </label>
+        </radio-group>
+        <!-- 开关 -->
+        <switch
+          class="switch"
+          :checked="item.checked"
+          :style="item.style"
+          v-else-if="item.switch"
+          @change="(e)=>onchange('',item,e,'switch')"
+        />
+        <!-- 文本域控件 -->
+        <textarea
+          class="textarea"
+          v-else-if="item.textarea"
+          :placeholder="item.textarea.placeholder"
+          v-model="item.textarea.value"
+          @input="(e)=>ontextarea('',item,e,'input')"
+          @focus="(e)=>ontextarea('',item,e,'focus')"
+          @blur="(e)=>ontextarea('',item,e,'blur')"
+          @confirm="(e)=>ontextarea('',item,e,'confirm')"
+          @keyboardheightchange="(e)=>ontextarea('',item,e,'keyboardheightchange')"
+          @linechange="(e)=>ontextarea('',item,e,'linechange')"
+        />
+        <!-- 链接 -->
+        <view
+          class="link"
+          v-else-if="item.link"
+          @click="onclick(item,'link')"
+        >
+          {{ item.link.label }}
+        </view>
         <!-- 文本 -->
         <view
           class="text"
@@ -216,6 +304,10 @@ export default {
         }
       }
     },
+    wxConfig: {
+      type: String,
+      default: ''
+    },
     /**
      * config.data里面的对象的值是否与控件的表现同步
      */
@@ -224,18 +316,42 @@ export default {
       default: () => true
     },
   },
-  created () {
-    console.log(this.config)
+  data () {
+    return {
+      configs: { data: [] }
+    }
   },
+  created () {
+    this.configs = this.config
+    // #ifdef MP-WEIXIN
+    // 微信小程序
+    // 经过多重传值会丢失绑定关系，方法也会丢失
+    // 当变量处理比较复杂的情况下，this.globalData[this.wxConfig]未及时就绪，需要注意时机
+    if (this.wxConfig) this.configs = this.globalData.wxPage[this.wxConfig]
+    console.log(this.wxConfig, this.config, this.configs)
+    // #endif
+  },
+  // #ifdef MP-WEIXIN
+  updated () {
+    if (this.wxConfig) this.configs = this.globalData.wxPage[this.wxConfig]
+  },
+  // #endif
   methods: {
     getFromGroupClass (item) {
       return 'formGroup ' + (!!(item.onclick || item.picker || item.link) && 'more ') + item.setClass
     },
-    onclick (item) {
+    onclick (item, component) {
       if (item.url) return this.libs.data.page.navigateTo(item.url)
-      if (item.onclick) return item.onclick(item)
+      let onclick = item.onclick
+      // #ifdef MP-WEIXIN
+      let _item = this.globalData.wxPage[this.wxConfig].data.find(({ key }) => key === item.key)
+      onclick = component ? (_item[component].onclick) : _item.onclick
+      console.log(_item, item, onclick)
+      // #endif
+      if (onclick) return onclick(component ? item[component] : item)
     },
     onchange (val, item, e, component) {
+      let change = item[component].change
       switch (component) {
         case 'checkbox':
           val = item.checkbox.data.filter(obj => e.detail.value.includes(obj.value))
@@ -260,10 +376,33 @@ export default {
         default:
           break
       }
-      if (item[component].change) return item[component].change(val, item, e, component, 'change')
+      // #ifdef MP-WEIXIN
+      let _item = this.globalData.wxPage[this.wxConfig].data.find(({ key }) => key === item.key)
+      change = _item[component].change
+      if (this.autoValue) {
+        switch (component) {
+          case 'checkbox':
+            _item.checkbox.data.forEach(obj => obj.checked = e.detail.value.includes(obj.value))
+            break
+          case 'radio':
+            _item.radio.data.forEach(obj => obj.checked = e.detail.value === obj.value)
+            break
+          case 'number':
+            _item.number.value = val
+            break
+          case 'switch':
+            _item.switch.checked = val
+            break
+          case 'picker':
+            item.picker.value = e.detail.value
+            break
+        }
+      }
+      console.log(val, item, _item)
+      // #endif
+      if (change) return change(val, item, e, component, 'change')
     },
     onMinus (val, item) {
-      console.log('onMinus', val, item, item.number.onMinus)
       // #ifndef MP-WEIXIN
       if (item.number.onMinus) return item.number.onMinus(val, item, 'minus')
       // #endif

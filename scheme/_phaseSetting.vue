@@ -1,8 +1,9 @@
 <template>
   <view class="phaseSetting">
-    <view>{{ setting.channel }}通道-阶段{{ setting.phase }}程序设置</view>
+    <view>{{ setting.channelID }}通道-阶段{{ setting.phase }}程序设置</view>
     <xnw-from
       :config="setting"
+      wxConfig="setting"
       ref="phaseSetting"
     />
     <view class="btnGroup fix">
