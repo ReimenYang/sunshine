@@ -13,7 +13,7 @@ export default {
   props: {
     time: {
       type: Number,
-      default: () => 20
+      default: () => 50
     }
   },
   data () {

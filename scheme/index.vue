@@ -65,7 +65,7 @@
           </xnw-item>
         </view>
       </view>
-      发送长度：
+      <!-- 发送长度：
       <input
         type="number"
         v-model="l"
@@ -95,8 +95,8 @@
         </view>
         <view class="btn">
           <firmware-update :time="t" />
-        </view>
-      </view>
+        </view> -->
+      <!-- </view> -->
     </p-wrap>
     <p-menu :defaultIndex="0" />
   </view>
@@ -104,9 +104,9 @@
 <script>
 import mixinBLE from '@/pages/index/mixinBLE.js'
 import mixinWorkoutList from '@/pages/index/mixinWorkoutList.js'
-import firmwareUpdate from '@/pages/index/_firmwareUpdate'
+// import firmwareUpdate from '@/pages/index/_firmwareUpdate'
 export default {
-  components: { firmwareUpdate },
+  // components: { firmwareUpdate },
   mixins: [mixinBLE, mixinWorkoutList],
   data () {
     return {
