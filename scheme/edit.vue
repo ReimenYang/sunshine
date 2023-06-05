@@ -321,7 +321,7 @@ export default {
       .txt {
         padding-right: 30rpx;
       }
-      // ifdef MP-WEIXIN
+      // #ifdef MP-WEIXIN
       .checkbox .label {
         width: 50%;
         display: inline-block;

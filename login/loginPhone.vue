@@ -14,6 +14,7 @@
         </view>
       </view>
     </view>
+    <!-- #ifndef MP-WEIXIN -->
     <input
       class="phone"
       type="number"
@@ -31,6 +32,7 @@
         @onConfirm="submit"
       />
     </view>
+    <!-- #endif -->
     <!-- #ifdef MP-WEIXIN -->
     <button
       type="default"
