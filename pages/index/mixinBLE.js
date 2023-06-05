@@ -1,24 +1,10 @@
 export default {
   data () {
-    // let {
-    //   bleReady, // 蓝牙api是否完成初始化
-    //   bleOnline, // 手机蓝牙是否处于可连接状态
-    //   searching, // 是否在搜索蓝牙设备
-    //   connected, // 手机是否与设备对接上,可以发指令
-    //   paired, // 手机是否与设备配对上，已经发送c指令，处于pbt状态
-    //   devicesReady // 初始化指令是否发送成功，设备处于可开始状态
-    // } = this.globalData
     return {
       BioStimBleModule: this.libs.global.ble.BioStimBleModule,
       EventBus: this.libs.global.ble.EventBus,
       device: this.libs.data.getStorage('device'),
       workTime: 60, // 单位：秒
-      // bleReady, // 蓝牙api是否完成初始化，对应openBluetoothAdapter
-      // bleOnline, // 手机蓝牙是否处于可连接状态,对应getBLEConnectStatus
-      // searching, // 是否在搜索蓝牙设备，对应startBluetoothDevicesDiscovery
-      // connected, // 手机是否与设备对接上，并成功开启了数据交互监听,可以发指令，对应createBLEConnection
-      // paired, // 手机是否与设备配对上，执行完获取设备信息指令，并按一定的业务规则进行判断，符合联机条件，处于pbt状态
-      // devicesReady, // 初始化指令是否发送成功，设备处于可开始状态
       fallTime: 0, // 最近跌落提示时间
       fallTimeInterval: 5 * 1000, // 跌落判断间隔
       showFall: false, // 跌落提示框

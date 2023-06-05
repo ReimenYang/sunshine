@@ -55,7 +55,7 @@
 
 <script>
 // import mixinBLE from '@/pages/index/mixinBLE.js'
-import login from './login.js'
+import login from '@/pages/index/login.js'
 // import connectBle from '@/bluetooth/_connect'
 import checkReady from '@/libs/uniInit'
 export default {

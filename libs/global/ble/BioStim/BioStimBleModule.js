@@ -454,7 +454,13 @@ BioStimBleModule.sendInitCmd = async (options, time) => {
   let MCommand = options.initCommand
   let MOptions = MCommand.split(',')
   // 6位是含有channel的指令
-  let channel = MOptions.length === 6 ? MOptions[1] : ''
+  // 7位是含有channel，output的指令
+  // DATA:m,<channel>,<output>,<PhaseNumber>,<LoopNumber>,<Time>,<Sum>\r\n\0
+  let channel = 5 < MOptions.length ? MOptions[1] : ''
+  if (MOptions.length === 7) {
+    MOptions.splice(2, 1)
+    MCommand = MOptions.join()
+  }
   await writePort(DeviceCmd.setWorkout({ command: MCommand, time }))
 
   // 阶段字段：ble使用workoutphaselist,优E康使用phaseList,痛经使用workoutPhaseList
@@ -503,7 +509,7 @@ BioStimBleModule.sendInitCmd = async (options, time) => {
   // 不保存方案：isSave等于0，planNo是1
   // 保存方案：isSave等于1，channel是1
   // 保存方案的需求还没确定
-  const canSave = ['consume', 'ECirculation', 'sunshine'].includes(project.projectName)
+  const canSave = ['consume', 'ECirculation', 'sunshine', 'EMX'].includes(project.projectName)
   if (!canSave) {
     await writePort(DeviceCmd.setChannelEnd(channel))
     return

@@ -31,12 +31,26 @@
         @onConfirm="submit"
       />
     </view>
-    <view
+    <!-- #ifdef MP-WEIXIN -->
+    <button
+      type="default"
+      open-type="getPhoneNumber"
+      @getphonenumber="getPhoneNumber"
+      class="authorizeBtn"
+    >
+      <image
+        class="iconBtn"
+        src="http://download.health10.cn/ECirculation/mpWeixinStatic/weixinLogo.png"
+      />
+      微信授权登录
+    </button>
+    <!-- #endif -->
+    <!-- <view
       class="toggleLoginType"
       @click="toggleLoginType"
     >
       密码登录
-    </view>
+    </view> -->
   </view>
 </template>
 
@@ -55,11 +69,18 @@ export default {
     if (_verify) this.phone = _phone
   },
   methods: {
+    async getPhoneNumber (e) {
+      let detail = await this.request(this.api.ECirculation.wx.getUserPhone, { code: e.detail.code })
+      let phone = detail.data
+      let _verify = this.libs.data.verify.phone(phone)
+      if (!_verify) return this.toast('手机号码不正确')
+      this.libs.data.setStorage('phone', phone)
+      uni.reLaunch({ url: '/pages/index/index' })
+    },
     async submit () {
       let _verify = this.libs.data.verify.phone(this.phone)
       if (!_verify) return this.error = '手机号码填写不正确'
-      this.libs.data.setStorage('phone', this.phone)
-      uni.navigateTo({ url: '/login/loginCode' })
+      uni.navigateTo({ url: '/login/loginCode?phone=' + this.phone })
     },
     toggleLoginType () {
       uni.reLaunch({ url: '/login/loginPassword' })
@@ -69,4 +90,16 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./login.scss";
+.authorizeBtn {
+  margin-top: 100rpx;
+  &:after {
+    border: none;
+  }
+  .iconBtn {
+    width: 80rpx;
+    height: 80rpx;
+    margin-right: 20rpx;
+    vertical-align: middle;
+  }
+}
 </style>

@@ -32,7 +32,7 @@ module.exports = {
   // webDeveloper: '10.10.20.41',
   // webDeveloper: 'localhost'
   mode: 'produce', // dev 开发环境、 test 测试环境、 produce 正式环境、 demo 演示环境、 pre 预发布环境
-  userRole: 'hospital', // user 用户 hospital 医院
+  userRole: 'user', // user 用户 hospital 医院
   /**  消费电子特有字段*/
 
   /** 设备类型id(deviceTypeId)
@@ -45,16 +45,22 @@ module.exports = {
    * periodPain 痛经
    * PE 早泄
    * sunshine 晨硕治疗仪
+   * EMX 穿戴设备
    */
-  subName: 'sunshine',
+  subName: 'PE',
   /** 是否使用多通道设备(isNewDevice)
    * Y/N 是/否
    */
   isNewDevice: 'Y',
   /** 允许搜索到的白名单(whiteList)
    * 默认：['MuscStim', 'BioStim', 'SSConsume']
+   * SSConsume 优E康
+   * OZ-A3 六通道
+   * OZ-A2 四通道
+   * EMX-C01 全身服
+   * EMX-S01 短裤
    */
-  whiteList: ['OZ-A3', 'OZ-A2', 'SSConsume'],
+  whiteList: ['OZ-A3', 'OZ-A2', 'EMX-S01', 'EMX-C01', 'SSConsume'],
   /** 不允许搜索到的黑名单(blackList)
    * 默认：[]
    */

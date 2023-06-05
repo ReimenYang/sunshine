@@ -161,14 +161,18 @@ const DeviceCmd = {
 
   /**
    * 发送程序
-   * 发出 DATA:m,<channel>,<PhaseNumber>,<LoopNumber>,<Time>,<Sum>\r\n\0
-   * <channel>, 通道编号，1~4,新版支持多通道app特有；
+   * 发出 DATA:m,<channel>,<output>,<PhaseNumber>,<LoopNumber>,<Time>,<Sum>\r\n\0
+   * <channel>, 通道编号，1~6；通道编号不再是必须按顺序从1、2、3、4、5、6，而是可能只使用部分通道，例如：1、2、4、6,传输顺序也不一定是从小到大,新版支持多通道app特有；
+   * <output>,使用输出口，1~3;    1：只使用输出口1;  2：同时使用输出口1、2;  3：只使用输出口2;新版四六通道才有的字段
    * <PhaseNumber> 阶段数量，最小值1，最大值为8；
    * <LoopNumber> 循环数量，最小值0，最大值为8；
    * <Time>训练时间，时间单位为秒，最少值为60(s)，最大值为10800(s), 即3小时
    * @return
    */
   setWorkout ({ command, channel, time }) {
+    // 6位是含有channel的指令
+    // 7位是含有channel，output的指令
+    if (command.split(',').length === 7) return commandFormat(6, 5, command, channel, time)
     return commandFormat(5, 4, command, channel, time)
   },
 

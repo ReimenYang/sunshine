@@ -49,10 +49,11 @@ export default {
       second: 0
     }
   },
-  async onLoad () {
-    let _phone = this.libs.data.getStorage('phone')
+  async onLoad (option) {
+    let _phone = option.phone
     let _verify = this.libs.data.verify.phone(_phone)
-    if (_verify) this.phone = _phone
+    if (!_verify) return
+    this.phone = _phone
     this.sendSms()
   },
   methods: {
@@ -60,7 +61,9 @@ export default {
       if (this.code.length !== 6) return this.error = '验证码不正确'
       let { code, message } = await this.libs.global.uniCloudApi({ apiName: 'verifySmsCode', phone: this.phone, code: this.code })
       this.error = message
-      if (code === 200) uni.reLaunch({ url: '/pages/index/index' })
+      if (code !== 200) return
+      this.libs.data.setStorage('phone', this.phone)
+      uni.reLaunch({ url: '/pages/index/index' })
     },
     intervalSecond () {
       this.second = 60

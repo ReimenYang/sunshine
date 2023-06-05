@@ -16,6 +16,10 @@ export default {
       sunshine: { // 晨硕治疗仪
         appName: '晨硕治疗仪',
         theme: '#127087'
+      },
+      EMX: { // 穿戴设备
+        appName: '穿戴设备',
+        theme: '#127087'
       }
     }
     let subName = libs.configProject.subName

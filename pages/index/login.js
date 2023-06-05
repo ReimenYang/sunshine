@@ -21,6 +21,7 @@ let login = async () => {
     periodPain: 'a4d3eb8f-bab7-49b6-a2d9-1b6e8be181d8',
     PE: '8aa43396-9283-4eba-88ad-efe30d4ef2cf',
     sunshine: 'a283529e-4703-4381-9dba-1802349278a7',
+    EMX: '5c827919-b938-4c4b-b19f-3b7bc5934c42'
   }[subName]
   globalData.headers = {
     appTerminalPlatform: libs.data.systemInfo.platform,
@@ -38,12 +39,13 @@ let login = async () => {
   // #endif
 
   // 已经有用户信息
-  console.log(userRole, '已经有用户信息', globalData.userInfo)
+  console.log(userRole, phone, '已经有用户信息', globalData.userInfo)
   if (globalData.userInfo) return { statusCode: 201, data: globalData.userInfo }
   // 医院登录
   if (userRole === 'hospital') return { statusCode: 'hospital' }
   // 用户登录
   if (!phone || 11 < phone.length) {
+    // #ifdef APP-PLUS
     phone = libs.data.random(7)
     // phone = 13268125215//罗
     // phone = 18924166730// 红米
@@ -64,6 +66,12 @@ let login = async () => {
     // }
     libs.data.setStorage('phone', phone)
     globalData.headers.phone = phone
+    // #endif
+
+    // #ifdef MP-WEIXIN
+    uni.reLaunch({ url: '/login/loginPhone' })
+    return
+    // #endif
   }
   // 之前ssl生成的公钥，复制的时候要小心不要有空格
   //   const publiukey = `-----BEGIN PUBLIC KEY-----
