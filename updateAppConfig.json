@@ -1,26 +1,24 @@
 [
   {
     "label": "ECirculation",
-    "lastest": "0.03Bate",
-    "updateTime": 20221207,
-    "lowest": "0.03Bate",
-    "review": [
-      "0.02Bate",
-      "0.03Bate"
-    ],
+    "lastest": "0.05Bate",
+    "updateTime": 20230802,
+    "lowest": "0.04Bate",
+    "review": [],
     "title": "易循环app下载",
-    "android": "http://download.health10.cn/lastest.apk",
-    "app": "http://download.health10.cn/lastest.apk",
+    "android":"http://download.health10.cn/lastest.apk",
+    "app": "https://mp-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a.cdn.bspapp.com/VKCEYUGU-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a/ECirculation0.05Bate0802.apk",
     "bg": "https://mp-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a.cdn.bspapp.com/VKCEYUGU-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a/6eae746a-9435-4f12-b8fc-aacacf3f0af7.png"
   },
   {
     "label": "sunshine",
-    "lastest": "0.01Bate",
-    "updateTime": 20230223,
-    "lowest": "0.01Bate",
+    "lastest": "0.05Bate",
+    "updateTime": 20230802,
+    "lowest": "0.04Bate",
     "review": [],
-    "android": "https://mp-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a.cdn.bspapp.com/cloudstorage/bbf5e6f7-4ce0-42cf-a0b3-cdbd4e022159.apk",
-    "app": "https://mp-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a.cdn.bspapp.com/cloudstorage/bbf5e6f7-4ce0-42cf-a0b3-cdbd4e022159.apk",
+    "title": "晨硕治疗仪app下载",
+    "android": "https://mp-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a.cdn.bspapp.com/VKCEYUGU-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a/sunshine0.05Bate0802.apk",
+    "app": "https://mp-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a.cdn.bspapp.com/VKCEYUGU-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a/sunshine0.05Bate0802.apk",
     "bg": "https://mp-ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a.cdn.bspapp.com/cloudstorage/9be98bda-2c8f-447b-86b2-081968d97b58.png"
   },
   {

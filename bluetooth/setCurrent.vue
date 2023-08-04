@@ -29,13 +29,27 @@ export default {
   components: { setCurrent },
   data () {
     return {
+      startRunning: false,
       theme: `--theme-color:${this.globalData.config.theme} `
     }
   },
+  // #ifndef MP-WEIXIN
   onBackPress () {
     this.endTreatment()
     delete this.globalData.deviceState
+    delete this.globalData.wxPage.currentList
+    delete this.globalData.currentChange
   },
+  // #endif
+  // #ifdef MP-WEIXIN
+  onUnload () {
+    if (this.startRunning) return
+    this.endTreatment()
+    delete this.globalData.deviceState
+    delete this.globalData.wxPage.currentList
+    delete this.globalData.currentChange
+  },
+  // #endif
   methods: {
     async nextStep () {
       if (!this.bleState.paired) return this.toast('请先配对并初始化设备')
@@ -72,6 +86,7 @@ export default {
         let _data = (await this.libs.request(this.libs.api.ECirculation.treatment.startTreatment, params)).data
         console.log('请求训练id，写入训练设备', params, _data)
         uni.hideLoading()
+        this.startRunning = true
         uni.reLaunch({ url: '/bluetooth/running' })
       }, 1000)
     }

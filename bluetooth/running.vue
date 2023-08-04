@@ -95,6 +95,8 @@ export default {
     delete this.globalData.handleLongRecived
     delete this.globalData.handleRecord
     delete this.globalData.deviceState
+    delete this.globalData.wxPage.currentList
+    delete this.globalData.currentChange
   },
   methods: {
     // 通过r指令获取运行状态

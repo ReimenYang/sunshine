@@ -5,7 +5,7 @@ export default {
     }
   },
   methods: {
-    async getWorkoutList () {
+    async getWorkoutList (showAll) {
       // deviceTypeId 设备类型id
       // 14:DJZ-A
       // 15:ble
@@ -16,7 +16,8 @@ export default {
         // composeName: 'ble2',
         // workoutNameOrDesc: 'ee6'// 测试用
         isNewDevice: this.libs.configProject.isNewDevice,
-        phone: this.globalData.userInfo.phone
+        phone: this.globalData.userInfo.phone,
+        deviceName: this.globalData.device.name || ''
       }
       this.globalData.workoutList = (
         await this.request(
@@ -48,11 +49,11 @@ export default {
           })
         })
       })
-      this.workoutList = this.globalData.workoutList
+      if (showAll) return this.workoutList = this.globalData.workoutList
       // 过滤多通道方案，易循环特有
-      // this.workoutList = this.globalData.workoutList.filter(item =>
-      //   item.deviceType.split(',').includes(this.globalData.device.mode)
-      // )
+      this.workoutList = this.globalData.workoutList.filter(item =>
+        item.deviceType.split(',').includes(this.globalData.device.mode)
+      )
     }
   }
 }

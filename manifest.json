@@ -1,6 +1,6 @@
 {
-    "name" : "晨硕治疗仪",
-    "appid" : "__UNI__A93835A",
+    "name" : "易循环",
+    "appid" : "__UNI__0940A4C",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : 100,
@@ -167,10 +167,10 @@
         "uniStatistics" : {
             "enable" : true
         },
-        "title" : "晨硕治疗仪",
+        "title" : "易循环",
         "router" : {
             "mode" : "hash",
-            "base" : "/sunshine"
+            "base" : "/ECirculation"
         },
         "optimization" : {
             "treeShaking" : {

@@ -1,9 +1,9 @@
 module.exports = {
-  name: '晨硕治疗仪', // 项目名称 晨硕治疗仪
-  projectName: 'sunshine', // 项目代号
+  name: '易循环', // 项目名称 晨硕治疗仪 / 易循环
+  projectName: 'ECirculation', // 项目代号 sunshine / ECirculation
   port: 8864, // 本地运行的端口
   framework: 'uni', // 使用前端框架:vue||uni
-  appid: '__UNI__A93835A',
+  appid: '__UNI__0940A4C', // __UNI__A93835A / __UNI__0940A4C
   // 一键登录
   // apiKey: '2cbeb0083ca06ce71e0c8aa700f8da9b', // 公司appid apiKey
   // apiSecret: '2523bede5154496dd21c9a9f68b2362c', // 公司appid apiSecret
@@ -17,15 +17,15 @@ module.exports = {
   spaceId: 'ec34b204-8f78-4a39-8ebd-3c4b40bf1b0a', // 个人appid apiKey
   clientSecret: 'Gwb8Fu5rEfeQEms8WnmjwA==', // 个人appid apiSecret
   projectType: {
-    wechat: false,
+    wechat: true,
     browser: false,
     app: true
   }, // 项目要运行的环境
   loginType: {
     phone: true // 一键登录
   }, // 用户登录方式
-  vision: '0.01Bate', // 项目版本
-  updateTime: '20230223', // 版本升级时间
+  vision: '0.05Bate', // 项目版本
+  updateTime: '20230802', // 版本升级时间
   // webDeveloper: '127.0.0.1', // 前端开发本地路径
   webDeveloper: '10.10.20.101', // Reimen
   // webDeveloper: 'dev-weiming.xinuowang.com', 	// Reimen
@@ -43,7 +43,7 @@ module.exports = {
   deviceTypeId: 16,
   /** 针对病症分类的app(subName)
    * periodPain 痛经
-   * PE 早泄
+   * PE 早泄 易循环
    * sunshine 晨硕治疗仪
    * EMX 穿戴设备
    */
@@ -55,12 +55,14 @@ module.exports = {
   /** 允许搜索到的白名单(whiteList)
    * 默认：['MuscStim', 'BioStim', 'SSConsume']
    * SSConsume 优E康
-   * OZ-A3 六通道
-   * OZ-A2 四通道
+   * OZ-A3 易循环六通道
+   * OZ-A2 易循环四通道
+   * ECP-6 晨硕六通道
+   * ECP-4 晨硕四通道
    * EMX-C01 全身服
    * EMX-S01 短裤
    */
-  whiteList: ['OZ-A3', 'OZ-A2', 'EMX-S01', 'EMX-C01', 'SSConsume'],
+  whiteList: ['OZ-A3', 'OZ-A2', 'ECP-4', 'ECP-6', 'EMX-S01', 'EMX-C01', 'SSConsume'],
   /** 不允许搜索到的黑名单(blackList)
    * 默认：[]
    */

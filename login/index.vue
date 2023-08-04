@@ -1,5 +1,12 @@
 <template>
   <view>
+    <view
+      v-for="(str,i) in log"
+      :key="i"
+      v-show="debug"
+    >
+      {{ str }}
+    </view>
     <p-downBLE
       v-if="showUpdate"
       :setting="setting"
@@ -58,6 +65,9 @@
 import login from '@/pages/index/login.js'
 // import connectBle from '@/bluetooth/_connect'
 import checkReady from '@/libs/uniInit'
+function waiting (time) {
+  return new Promise(resolve => setTimeout(resolve, time))
+}
 export default {
   // mixins: [mixinBLE],
   // components: { connectBle },
@@ -72,20 +82,31 @@ export default {
         showModal: 'dialog',
         from: 'app'
       },
-      theme: `--theme-color:${this.globalData.config.theme} `
+      theme: `--theme-color:${this.globalData.config.theme} `,
+      debug: false,
+      log: []
     }
   },
   async onLoad () {
     // uni.redirectTo({ url: '/scheme/index' })
     //  2022-9-14 需求跳过此页面
+    if (this.debug) this.log.push('准备初始化...')
     this.init()
   },
   methods: {
     async init () {
       uni.showLoading({ title: '初始化...' })
 
+      if (this.debug) this.log.push('检查基础数据...')
       await checkReady()
+      if (this.debug) this.log.push('用户登录...')
       let userInfo = await login()
+      try {
+        if (this.debug) this.log.push(JSON.stringify(userInfo))
+      } catch (e) {
+        if (this.debug) this.log.push(userInfo)
+      }
+      if (this.debug) await waiting(2000)
       if (!userInfo) return uni.showToast({ title: '登录失败', icon: 'none', duration: 2000 })
       // 检查用户信息
       // this.userInfo = this.globalData.userInfo
@@ -112,6 +133,12 @@ export default {
         isForce,
         this.showUpdate
       )
+      if (this.debug) {
+        this.log.push('检查更新信息...')
+        this.log.push(JSON.stringify(userInfo))
+
+        await waiting(2000)
+      }
       uni.hideLoading()
       if (!this.isNeed && !this.showUpdate && userInfo.statusCode !== 30002) return this.router()
     },
@@ -135,7 +162,14 @@ export default {
       if (res.code !== 200) return
       return this.router()
     },
-    router () {
+    async router () {
+      if (this.debug) {
+        this.log.push('路由跳转...')
+        this.log.push('this.libs.configProject.userRole')
+        this.log.push(!this.globalData.userInfo)
+
+        await waiting(2000)
+      }
       if (this.libs.configProject.userRole === 'hospital' && !this.globalData.userInfo) return uni.reLaunch({ url: '/login/loginPassword' })
       uni.reLaunch({ url: '/scheme/index' })
     }

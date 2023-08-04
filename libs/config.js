@@ -7,9 +7,9 @@ switch (projectName) {
   case 'ECirculation':// 易循环
   case 'sunshine':// 晨硕治疗仪
     apiServers = {
-      dev: 'https://consume.sspendi.com',
-      test: 'https://consume.sspendi.com',
-      produce: 'https://consume.sspendi.com'
+      dev: 'https://consume.andrologia.cn',
+      test: 'https://consume.andrologia.cn',
+      produce: 'https://consume.andrologia.cn'
     }
     host.dev = 'http://' + webDeveloper
     host.produce = 'https://health10.cn'

@@ -351,7 +351,7 @@ export default {
       if (onclick) return onclick(component ? item[component] : item)
     },
     onchange (val, item, e, component) {
-      let change = item[component].change
+      let change = item[component] && item[component].change
       switch (component) {
         case 'checkbox':
           val = item.checkbox.data.filter(obj => e.detail.value.includes(obj.value))
@@ -377,8 +377,9 @@ export default {
           break
       }
       // #ifdef MP-WEIXIN
-      let _item = this.globalData.wxPage[this.wxConfig].data.find(({ key }) => key === item.key)
-      change = _item[component].change
+      let _item = this.globalData.wxPage[this.wxConfig].data.find(({ key, title }) => ['sunshine', 'limitDeviceApp', 'EMX', 'ECirculation'].includes(this.libs.configProject.projectName) ? (title === item.title) : (key === item.key))
+
+      change = _item[component] && _item[component].change
       if (this.autoValue) {
         switch (component) {
           case 'checkbox':
@@ -400,7 +401,7 @@ export default {
       }
       console.log(val, item, _item)
       // #endif
-      if (change) return change(val, item, e, component, 'change')
+      if (typeof change === 'function') return change(val, item, e, component, 'change')
     },
     onMinus (val, item) {
       // #ifndef MP-WEIXIN

@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     async init () {
-      await this.getWorkoutList()
+      await this.getWorkoutList(true)
       this.workoutList = JSON.parse(JSON.stringify(this.globalData.workoutList))
       this.workoutList.forEach(item => { item.tags = [{ txt: '编辑' }] })
     },

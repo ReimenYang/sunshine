@@ -1,6 +1,9 @@
 <template>
   <view class="itemBox">
-    <xnw-from :config="{data:[firstLine,...currentList]}" />
+    <xnw-from
+      :config="{data:[firstLine,...currentList]}"
+      wxConfig="currentList"
+    />
   </view>
 </template>
 <script>
@@ -60,6 +63,7 @@ export default {
             onPlus: this.currentChange
           }
         }))
+      this.globalData.wxPage.currentList = { data: [this.firstLine, ...this.currentList] }
       console.log('初始化强度按钮', this.currentList)
     },
     currentChange (n, item, type) {
@@ -100,6 +104,7 @@ export default {
           if (item.key === 'settingCHR' && item.number.value === settingCHR) return
           item.number.value = Number(item.key === 'settingCHL' ? settingCHL : settingCHR)
         })
+        this.globalData.wxPage.currentList = { data: [this.firstLine, ...this.currentList] }
       }, this.intervalTime)
     }
   }

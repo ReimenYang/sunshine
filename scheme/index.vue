@@ -128,6 +128,7 @@ export default {
       await this.request(this.api.ECirculation.scheme.getImageList)
     ).data
     this.globalData.imageList.forEach(item => item.id = String(item.id))
+    if (!this.globalData.wxPage) this.globalData.wxPage = {}
   },
   watch: {
     'device': {

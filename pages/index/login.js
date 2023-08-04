@@ -39,7 +39,7 @@ let login = async () => {
   // #endif
 
   // 已经有用户信息
-  console.log(userRole, phone, '已经有用户信息', globalData.userInfo)
+  console.log(subName, userRole, phone, '已经有用户信息', globalData.userInfo, appid)
   if (globalData.userInfo) return { statusCode: 201, data: globalData.userInfo }
   // 医院登录
   if (userRole === 'hospital') return { statusCode: 'hospital' }
